@@ -1,5 +1,6 @@
 BUILD_DIR  ?= $(CURDIR)/riot
 
+CFLAGS += -Wno-error
 all: liblua
 
 liblua:

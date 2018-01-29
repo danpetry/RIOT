@@ -14,7 +14,7 @@ PKG_NAME=lua
 
 all: 
 	# @mkdir $(PKG_BUILDDIR)/LuaRTOS
-	@cp -r /home/danielpetry/Sandbox/Lua-RTOS-ESP32/components/lua_rtos/* $(PKG_BUILDDIR)
+	@cp -r /home/danielpetry/Sandbox/Lua-RTOS-ESP32/components/lua_rtos/Lua/src/* $(PKG_BUILDDIR)
 	# Our build system - comment out to use their one
 	@cp Makefile.lua $(PKG_BUILDDIR)/Makefile
 	"$(MAKE)" -C $(PKG_BUILDDIR)
