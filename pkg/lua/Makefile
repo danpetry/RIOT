@@ -11,13 +11,16 @@ PKG_NAME=lua
 # ifeq ($(TOOLCHAIN)_$(BOARD),llvm_native)
 # export CFLAGS += -Wno-macro-redefined -Wno-gnu-folding-constant
 # endif
-
 all: 
 	# @mkdir $(PKG_BUILDDIR)/LuaRTOS
-	@cp -r /home/danielpetry/Sandbox/Lua-RTOS-ESP32/components/lua_rtos/Lua/src/* $(PKG_BUILDDIR)
+	cp -r /home/danielpetry/Sandbox/lua-5.3.4/src/* $(PKG_BUILDDIR)
 	# Our build system - comment out to use their one
 	@cp Makefile.lua $(PKG_BUILDDIR)/Makefile
 	"$(MAKE)" -C $(PKG_BUILDDIR)
+#	ar cr $(PKG_BUILDDIR)/lua.a $(PKG_BUILDDIR)/lua.o $(PKG_BUILDDIR)/liblua.a
+#	echo $(PKG_BUILDDIR)
+#	echo $(BINDIR)
+#	cp $(PKG_BUILDDIR)/lua.a $(BINDIR) 
 
 # uncomment this when the package needs to be checked out by git
 include $(RIOTBASE)/pkg/pkg.mk

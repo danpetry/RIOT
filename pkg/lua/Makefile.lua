@@ -1,6 +1,10 @@
 BUILD_DIR  ?= $(CURDIR)/riot
 
-CFLAGS += -Wno-error
+EXT_CFLAGS :=-D__TARGET_RIOT
+
+SRC := $(filter-out lua.c luac.c,$(wildcard *.c))
+EXT_CFLAGS += $(CFLAGS)
+# CFLAGS += -Wno-error
 all: liblua
 
 liblua:
