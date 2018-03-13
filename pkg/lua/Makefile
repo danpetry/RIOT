@@ -1,4 +1,6 @@
 PKG_NAME=lua
+PKG_SOURCE_LOCAL=/home/danielpetry/Sandbox/lua-5.3.4/src
+
 # PKG_URL=https://github.com/jerryscript-project/jerryscript.git
 # PKG_VERSION=bd574956e3702bc5b0512ad835b1df896cf00626
 # PKG_LICENSE=Apache-2.0
@@ -12,9 +14,9 @@ PKG_NAME=lua
 # export CFLAGS += -Wno-macro-redefined -Wno-gnu-folding-constant
 # endif
 all: 
-	# @mkdir $(PKG_BUILDDIR)/LuaRTOS
-	cp -r /home/danielpetry/Sandbox/lua-5.3.4/src/* $(PKG_BUILDDIR)
-	# Our build system - comment out to use their one
+#	@mkdir $(PKG_BUILDDIR)/LuaRTOS
+#	cp -r /home/danielpetry/Sandbox/lua-5.3.4/src/* $(PKG_BUILDDIR)
+#	Our build system - comment out to use their one
 	@cp Makefile.lua $(PKG_BUILDDIR)/Makefile
 	"$(MAKE)" -C $(PKG_BUILDDIR)
 #	ar cr $(PKG_BUILDDIR)/lua.a $(PKG_BUILDDIR)/lua.o $(PKG_BUILDDIR)/liblua.a

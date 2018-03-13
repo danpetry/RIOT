@@ -8,9 +8,9 @@ EXT_CFLAGS += $(CFLAGS)
 all: liblua
 
 liblua:
-	# running .lua makefile, copied into library directory
-	# mkdir -p $(BUILD_DIR)
-	# "$(MAKE)" -C $(BUILD_DIR)
+#	running .lua makefile, copied into library directory
+#	mkdir -p $(BUILD_DIR)
+#	"$(MAKE)" -C $(BUILD_DIR)
 # JERRYHEAP  ?= 16
 # 
 # EXT_CFLAGS :=-D__TARGET_RIOT
