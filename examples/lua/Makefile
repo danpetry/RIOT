@@ -39,8 +39,8 @@ USEMODULE += shell_commands
 # USEMODULE += prng_minstd
 
 # USEPKG += tlsf
-
 # USEPKG += ccn-lite
 USEPKG += lua
+
 
 include $(RIOTBASE)/Makefile.include

@@ -1,2 +1,1 @@
-# INCLUDES += -I$(PKGDIRBASE)/jerryscript/jerry-core/include
-# INCLUDES += -I$(PKGDIRBASE)/jerryscript/jerry-ext/include
+INCLUDES += -I$(PKGDIRBASE)/lua
