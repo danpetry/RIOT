@@ -449,6 +449,7 @@ static int handle_script (lua_State *L, char **argv) {
 
 
 
+
 /* bits of various argument indicators in 'args' */
 #define has_error	1	/* bad option */
 #define has_i		2	/* -i */
@@ -592,6 +593,19 @@ static int pmain (lua_State *L) {
   return 1;
 }
 
+
+int handle_buffer(const char *buffer, size_t buffer_len){
+  int status;
+  lua_State *L = luaL_newstate();  /* create state */
+  luaL_checkversion(L);
+  luaL_openlibs(L);
+  if (L == NULL) {
+    l_message(NULL, "cannot create state: not enough memory");
+    return EXIT_FAILURE;
+  }
+  status = dochunk(L, luaL_loadbuffer(L, buffer, buffer_len, "lua input script"));
+  return report(L, status);
+}
 
 int lua_main ( int argc, char **argv) {
   int status, result;

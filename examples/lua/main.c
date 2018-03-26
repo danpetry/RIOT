@@ -22,16 +22,22 @@
 
 #include "msg.h"
 #include "shell.h"
+#include "main.lua.h"
+
 extern int lua_main(int argc, char **argv);
+extern int handle_buffer(const char *buffer, size_t buffer_len);
+
 int main(void)
 {
     
     puts("Lua RTOS build");
 
-    char *input_string = "lua\0";
+//  char *input_string = "lua\0";
 
-    char **input_pp = &input_string;
-    lua_main(1, input_pp);
+//    char **input_pp = &input_string;
+//    lua_main(1, input_pp);
+
+    handle_buffer(main_lua, main_lua_len);
 
     return 0;
 }
