@@ -19,11 +19,11 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
-
+#include "main.lua.h"
 
 #if !defined(LUA_PROMPT)
-#define LUA_PROMPT		"> "
-#define LUA_PROMPT2		">> "
+#define LUA_PROMPT		"L> "
+#define LUA_PROMPT2		"L>> "
 #endif
 
 #if !defined(LUA_PROGNAME)
@@ -604,7 +604,17 @@ int handle_buffer(const char *buffer, size_t buffer_len){
     return EXIT_FAILURE;
   }
   status = dochunk(L, luaL_loadbuffer(L, buffer, buffer_len, "lua input script"));
-  return report(L, status);
+  report(L, status);
+  lua_close(L);
+  return (status == LUA_OK) ? EXIT_SUCCESS : EXIT_FAILURE;
+}
+
+int lua_run_main_script(int argc, char **argv){
+
+  (void)argc;
+  (void)argv;
+
+  return handle_buffer(main_lua, main_lua_len);
 }
 
 int lua_main ( int argc, char **argv) {
