@@ -8,7 +8,6 @@
 
 #include "lprefix.h"
 
-
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,8 +17,6 @@
 
 #include "lauxlib.h"
 #include "lualib.h"
-
-#include "main.lua.h"
 
 #if !defined(LUA_PROMPT)
 #define LUA_PROMPT		"L> "
@@ -593,8 +590,7 @@ static int pmain (lua_State *L) {
   return 1;
 }
 
-
-int handle_buffer(const char *buffer, size_t buffer_len){
+int lua_handle_buffer(const char *buffer, size_t buffer_len ){
   int status;
   lua_State *L = luaL_newstate();  /* create state */
   luaL_checkversion(L);
@@ -609,15 +605,7 @@ int handle_buffer(const char *buffer, size_t buffer_len){
   return (status == LUA_OK) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
-int lua_run_main_script(int argc, char **argv){
-
-  (void)argc;
-  (void)argv;
-
-  return handle_buffer(main_lua, main_lua_len);
-}
-
-int lua_main ( int argc, char **argv) {
+int lua_main (int argc, char **argv) {
   int status, result;
   lua_State *L = luaL_newstate();  /* create state */
   if (L == NULL) {
