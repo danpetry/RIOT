@@ -25,6 +25,7 @@
 #include "msg.h"
 #include "shell.h"
 #include "main.lua.h"
+#include "figlet.lua.h"
 
 extern int lua_main(int argc, char **argv);
 
@@ -61,7 +62,7 @@ int main(void)
 
      char line_buf[SHELL_DEFAULT_BUFSIZE];
      shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
-//    lua_run_script(main_lua, main_lua_len);
+    //lua_run_script(figlet_lua, figlet_lua_len);
 
     return 0;
 }

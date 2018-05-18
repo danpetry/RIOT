@@ -40,6 +40,8 @@
 
 #define LUA_INITVARVERSION	LUA_INIT_VAR LUA_VERSUFFIX
 
+extern int luaopen_saul(lua_State *L);
+#define LUA_EXTRALIBS { "saullib", luaopen_saul },
 
 /*
 ** lua_stdin_is_tty detects whether the standard input is a 'tty' (that
@@ -604,6 +606,8 @@ int lua_main (int argc, char **argv) {
     l_message(argv[0], "cannot create state: not enough memory");
     return EXIT_FAILURE;
   }
+
+  luaopen_saul(L);
   lua_pushcfunction(L, &pmain);  /* to call 'pmain' in protected mode */
   lua_pushinteger(L, argc);  /* 1st argument */
   lua_pushlightuserdata(L, argv); /* 2nd argument */
