@@ -22,9 +22,16 @@
 #include <stdlib.h>
 #include "lauxlib.h"
 #include "lualib.h"
-
+#include "msg.h"
+#include "shell.h"
 #include "main.lua.h"
 
+extern int lua_main(int argc, char **argv);
+
+static const shell_command_t shell_commands[] = {
+	    { "lua", "Start a Lua prompt", lua_main},
+	    { NULL, NULL, NULL }
+	};
 int lua_run_script (const char *buffer, size_t buffer_len ){
 
     lua_State *L = luaL_newstate();
@@ -52,7 +59,9 @@ int main(void)
 {
     puts("Lua RIOT build");
 
-    lua_run_script(main_lua, main_lua_len);
+     char line_buf[SHELL_DEFAULT_BUFSIZE];
+     shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
+//    lua_run_script(main_lua, main_lua_len);
 
     return 0;
 }

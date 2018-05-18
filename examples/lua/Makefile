@@ -16,6 +16,9 @@ QUIET ?= 1
 
 USEMODULE += ps
 
+USEMODULE += shell
+USEMODULE += shell_commands
+
 ifneq ($(BOARD),native)
 # This stack size is large enough to run Lua print() functions of
 # various lengths. Other functions untested.
