@@ -106,10 +106,13 @@ int luaopen_saul(lua_State *L)
 //        lua_setfield(L, -2, "__index");
 //    }
 
-    //luaL_newlib(L, funcs);
-    lua_pushcfunction(L, char_);
-    lua_setglobal(L, "printmsg");
+//    luaL_newlib(L, funcs);
+//    lua_setglobal(L, "danlib");
+    //lua_pushcfunction(L, char_);
+    //lua_setglobal(L, "printmsg");
     
+	lua_newtable(L);
+	luaL_setfuncs(L, funcs, 0);
 
 //    lua_pushinteger(L, MINEPLEX_CHAR_W);
 //    lua_setfield(L, -2, "WIDTH");
