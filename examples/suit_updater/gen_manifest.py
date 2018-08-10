@@ -207,6 +207,8 @@ def main():
         skey = ed25519.SigningKey(_parse_privkey(key_data))
     suit = _format_suit(args)
     print("manifest generated, {} bytes long".format(len(cbor.dumps(suit))))
+    with open("interim_manifest.cbor", "wb") as f:
+        f.write(cbor.dumps(suit))
     sign = _sign1(cbor.dumps(suit), "test", skey)
     args.output.write(cbor.dumps(sign))
     return 0

@@ -232,6 +232,8 @@ static int _manifest_verify(firmware_manifest_t *state)
     /* Decode cose */
     int res = cose_sign_decode(&cose_in, state->mbuf,
             state->mbuf_len);
+    LOG_WARNING("verifying manifest");
+
     if (res != 0) {
         LOG_WARNING("Could not decode cose struct: %d\n", res);
         return res;
