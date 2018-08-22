@@ -28,6 +28,8 @@
 #include "semtech_loramac.h"
 
 semtech_loramac_t loramac;
+void submitValues(void);
+extern char buffer[200];
 
 /* Application key is 16 bytes long (e.g. 32 hex chars), and thus the longest
    possible size (with application session and network session keys) */
@@ -45,7 +47,7 @@ static void _loramac_join_usage(void)
 
 static void _loramac_tx_usage(void)
 {
-    puts("Usage: loramac tx <payload> [<cnf|uncnf>] [port]");
+    puts("Usage: loramac tx <payload|osm_data> [<cnf|uncnf>] [port]");
 }
 
 static void _loramac_set_usage(void)
@@ -392,6 +394,12 @@ static int _cmd_loramac(int argc, char **argv)
 
         semtech_loramac_set_tx_mode(&loramac, cnf);
         semtech_loramac_set_tx_port(&loramac, port);
+
+        if (strcmp(argv[2], "osm_data") == 0){
+            submitValues();
+            puts(buffer);
+            argv[2] = buffer;
+        }
 
         switch (semtech_loramac_send(&loramac,
                                      (uint8_t *)argv[2], strlen(argv[2]))) {
