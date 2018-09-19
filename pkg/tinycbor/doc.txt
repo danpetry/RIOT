@@ -1,0 +1,29 @@
+/**
+ * @defgroup pkg_tinycbor TinyCBOR CBOR library
+ * @ingroup  pkg
+ * @brief    Provides the TinyCBOR Concise Binary Object Representation (CBOR)
+ *           Library
+ * @see https://github.com/intel/tinycbor/
+ *
+ * # TinyCBOR
+ * 
+ * TinyCBOR is a small CBOR encoder and decoder, optimized for very fast
+ * operation with very small footprint.
+ *
+ * The main encoder and decoder function don't use dynamic memory allocation.
+ *
+ * # Usage
+ *
+ * Just add it as a package in your application:
+ *
+ * ```makefile
+ * USEPKG += tinycbor
+ * ```
+ *
+ * TinyCBOR has optional floating point support. In RIOT-os this is enabled by
+ * adding to your application:
+ *
+ * ```makefile
+ * USEMODULE += tinycbor_float
+ * ```
+ */
