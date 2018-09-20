@@ -7,21 +7,21 @@
  *
  * # TinyCBOR
  * 
- * TinyCBOR is a small CBOR encoder and decoder, optimized for very fast
- * operation with very small footprint.
+ * TinyCBOR is a CBOR encoder and decoder with a very small footprint, optimized
+ * for very fast operation.
  *
- * The main encoder and decoder function don't use dynamic memory allocation.
+ * The main encoder and decoder functions don't use dynamic memory allocation.
  *
  * # Usage
  *
- * Just add it as a package in your application:
+ * Just add it as a package in your application's Makefile:
  *
  * ```makefile
  * USEPKG += tinycbor
  * ```
  *
- * TinyCBOR has optional floating point support. In RIOT-os this is enabled by
- * adding to your application:
+ * TinyCBOR has optional floating point support. In RIOT-OS this is enabled by
+ * adding the following line to your application's Makefile:
  *
  * ```makefile
  * USEMODULE += tinycbor_float
