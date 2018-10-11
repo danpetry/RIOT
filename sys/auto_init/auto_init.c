@@ -448,9 +448,9 @@ void auto_init(void)
     extern void auto_init_tsl2561(void);
     auto_init_tsl2561();
 #endif
-#ifdef MODULE_VCNL40X0
-    extern void auto_init_vcnl40x0(void);
-    auto_init_vcnl40x0();
+#ifdef MODULE_TSL4531X
+    extern void auto_init_tsl4531x(void);
+    auto_init_tsl4531x();
 #endif
 #ifdef MODULE_VEML6070
     extern void auto_init_veml6070(void);
