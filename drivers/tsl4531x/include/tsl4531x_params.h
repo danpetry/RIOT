@@ -47,12 +47,15 @@ extern "C" {
 #ifndef TSL4531X_LOW_POWER_MODE
 #define TSL4531X_LOW_POWER_MODE        (false)
 #endif
+#ifndef TSL4531X_PARAM_PARTNO
+#define TSL4531X_PARAM_PARTNO          TSL45315_PARTNO
+#endif
 #ifndef TSL4531X_PARAMS
 #define TSL4531X_PARAMS                { .i2c_dev     = TSL4531X_PARAM_I2C_DEV, \
                                          .i2c_addr    = TSL4531X_PARAM_I2C_ADDR, \
                                          .integration_time = TSL4531X_PARAM_INTEGRATION, \
                                          .low_power_mode = TSL4531X_LOW_POWER_MODE, \
-                                         .part_number = TSL45315_PARTNO }
+                                         .part_number = TSL4531X_PARAM_PARTNO }
 #endif
 
 #ifndef TSL4531X_SAUL_INFO

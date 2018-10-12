@@ -38,6 +38,7 @@
  * @brief   Allocation of memory for device descriptors
  */
 static tsl4531x_t tsl4531x_devs[TSL4531X_NUMOF];
+static tsl4531x_t *tsl4531x_devs_p[TSL4531X_NUMOF];
 
 /**
  * @brief   Memory for the SAUL registry entries
@@ -61,6 +62,8 @@ void auto_init_tsl4531x(void)
     for (unsigned i = 0; i < TSL4531X_NUMOF; i++) {
         printf("[auto_init_saul] initializing tsl4531x #%u\n", i);
 
+        tsl4531x_devs_p[i] = &tsl4531x_devs[i];
+
         if (tsl4531x_init(&tsl4531x_devs[i],
                           &tsl4531x_params[i]) != 0) {
             LOG_ERROR("[auto_init_saul] error initializing tsl4531x #%u\n", i);
@@ -68,7 +71,7 @@ void auto_init_tsl4531x(void)
         }
 
         /* Fill the saul_entries struct */
-        saul_entries[i].dev = &(tsl4531x_devs[i]);
+        saul_entries[i].dev = &(tsl4531x_devs_p[i]);
         saul_entries[i].name = tsl4531x_saul_info[i].name;
         saul_entries[i].driver = &tsl4531x_saul_driver;
 

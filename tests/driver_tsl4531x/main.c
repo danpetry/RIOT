@@ -62,7 +62,7 @@ int main(void)
         printf(" [lx] | %u\n", lux);
 
         /* Determine the actual integration time - how long does it take for a
-           value to change? 
+           value to change?
            Note that if the sensor value doesn't change between integration
            cycles, this will sum the previous integration times. This mostly
            won't happen, but it's best to let this run for a few cycles and take
@@ -90,7 +90,7 @@ int main(void)
         lux = tsl4531x_get_sample(&dev);
         printf("Illuminance       | Low power mode  | Immediate read after mode change |");
         printf(" [lx] | %u\n", lux);
-        while (!tsl4531x_is_sample_ready(&dev)) {}
+        xtimer_usleep(tsl4531x_time_until_sample_ready(&dev));
         lux = tsl4531x_get_sample(&dev);
         printf("Illuminance       | Low power mode  | One cycle time after mode change |");
         printf(" [lx] | %u\n", lux);
@@ -101,19 +101,16 @@ int main(void)
         printf(" [lx] | %u\n", lux);
 
         /* Test asynchronous read - low power mode */
-        if (tsl4531x_start_sample(&dev) < 0) {
-            puts("[Error] Not in low power mode");
-        }
+        tsl4531x_start_sample(&dev);
 
-        /* Test how long the sample took to be ready. */
-        uint32_t read_start_time = xtimer_now_usec();
-        while (!tsl4531x_is_sample_ready(&dev)) {}
-        uint32_t read_end_time = xtimer_now_usec();
+        /* Verify that the stated time until sample ready is reasonable. */
+        uint32_t t = tsl4531x_time_until_sample_ready(&dev);
+        xtimer_usleep(t);
         lux = tsl4531x_get_sample(&dev);
         printf("Illuminance       | Low power mode  | Asynchronous read                |");
         printf(" [lx] | %u\n", lux);
         printf("Sample ready time | Low power mode  | From driver                      |");
-        printf(" [us] | %lu\n", read_end_time - read_start_time);
+        printf(" [us] | %lu\n", t);
 
         xtimer_usleep(_100ms_in_us);
     }

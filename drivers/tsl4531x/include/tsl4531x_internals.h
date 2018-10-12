@@ -33,11 +33,11 @@ extern "C" {
  * @name TSL4531x internal registers
  * @{
  */
-#define TSL4531X_CONTROL_REG             (0x0)      /* sets power mode */
-#define TSL4531X_CONFIGURATION_REG       (0x01)     /* sets power mode */
-#define TSL4531X_ALSDATA1_REG            (0x04)     /* contains DATALOW */
-#define TSL4531X_ALSDATA2_REG            (0x05)     /* contains DATAHIGH */
-#define TSL4531X_ID_REG                  (0x0A)     /* contains part no above*/
+#define TSL4531X_CONTROL_REG             (0x0)      /**< sets power mode */
+#define TSL4531X_CONFIGURATION_REG       (0x01)     /**< sets power mode */
+#define TSL4531X_ALSDATA1_REG            (0x04)     /**< contains DATALOW */
+#define TSL4531X_ALSDATA2_REG            (0x05)     /**< contains DATAHIGH */
+#define TSL4531X_ID_REG                  (0x0A)     /**< contains part no above*/
 /** @} */
 
 /**
@@ -46,12 +46,12 @@ extern "C" {
  */
 #define TSL4531X_MODE_POWER_DOWN         (0x00)
 #define TSL4531X_MODE_RESERVED           (0x01)
-#define TSL4531X_MODE_SINGLE_ADC_CYCLE   (0x02)     /* Runs a single ADC cycle then
+#define TSL4531X_MODE_SINGLE_ADC_CYCLE   (0x02)     /**< Runs a single ADC cycle then
                                                        returns to power down. */
 #define TSL4531X_MODE_NORMAL             (0x03)
 
 /* PowerSave saves some power in full power mode. PowerSave skip turns this off.
- * Currently PowerSave skip is hard-coded to be off for simplicity, as it's just
+ * Currently PowerSave skip is hard-coded to be on for simplicity, as it's just
  * an intermediate between normal mode and low-power mode. */
 #define TSL4531X_PSAVESKIP_OFF           (0)
 #define TSL4531X_PSAVESKIP_ON            (1)
@@ -89,8 +89,9 @@ extern "C" {
  *    the datasheet is 5% more than the nominal time
  * 2. 60, 30 or 15 ms, according to the integration time, if PowerSave is on;
  *    which is the power down period in between integration cycles in this mode.
- *    Note that in the current implementation, PowerSave is hard-coded to be off,
- *    as it only gives slightly less power consumption than normal mode.
+ *    Note that in the current implementation, the "PowerSave skip" option is
+ *    hard-coded to be on, as PowerSave only gives slightly less power
+ *    consumption than normal mode.
  */
 #define TSL4531X_GET_INTEGRATION_TIME_USEC(int_time_setting, psaveskip) \
     (uint32_t)1000 * (((0x04 >> int_time_setting) * 105) + ((!psaveskip) * (60 >> int_time_setting)))

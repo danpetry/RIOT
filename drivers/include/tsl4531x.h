@@ -26,7 +26,7 @@
  * time defined in the initialization parameters (plus a small margin, to encompass
  * the max times indicated in the datasheet). For asyncronous operation, the
  * application needs to use the functions tsl4531x_start_sample,
- * tsl4531x_is_sample_ready and tsl4531x_get_sample, as described in those
+ * tsl4531x_time_until_sample_ready and tsl4531x_get_sample, as described in those
  * functions' descriptions.
  *
  * Both modes will work through SAUL, with the low-power mode being synchronous.
@@ -59,7 +59,10 @@ typedef enum {
 }tsl4531x_intgn_time_t;
 
 /**
- * @brief Part numbers for different members of the TSL4531x series
+ * @name  Fixed values for different members of the TSL4531x series
+ * @{
+ *
+ * @brief Part numbers
  */
 #define TSL45311_PARTNO                  (0x8)
 #define TSL45313_PARTNO                  (0x9)
@@ -67,12 +70,13 @@ typedef enum {
 #define TSL45317_PARTNO                  (0xB)
 
 /**
- * @brief TSL4531x I2C addresses for different members of the TSL4531x series
+ * @brief TSL4531x I2C addresses
  */
 #define TSL45311_ADDR                    (0x39)
 #define TSL45313_ADDR                    (0x39)
 #define TSL45315_ADDR                    (0x29)
 #define TSL45317_ADDR                    (0x29)
+/** @} */
 
 /**
  * @brief Device initialization parameters
@@ -81,7 +85,7 @@ typedef struct {
     i2c_t i2c_dev;                              /**< I2C device which is used */
     i2c_t i2c_addr;                             /**< I2C address of sensor */
     tsl4531x_intgn_time_t integration_time;     /**< integration time */
-    bool low_power_mode;                        /**< low power mode */
+    bool low_power_mode : 1;                    /**< low power mode */
     uint8_t part_number;                        /**< part number, according to variant */
 } tsl4531x_params_t;
 
@@ -92,7 +96,8 @@ typedef struct {
     i2c_t i2c_dev;                              /**< I2C device which is used */
     i2c_t i2c_addr;                             /**< I2C address of sensor */
     tsl4531x_intgn_time_t integration_time;     /**< integration time */
-    bool low_power_mode;                        /**< low power mode */
+    bool low_power_mode : 1;                    /**< low power mode */
+    bool high_power_mode_started_up : 1;        /**< high power mode started up flag */
     uint32_t sample_start_time;                 /**< sample start time */
 } tsl4531x_t;
 
@@ -110,7 +115,7 @@ typedef struct {
 int tsl4531x_init(tsl4531x_t *dev, const tsl4531x_params_t *params);
 
 /**
- * Set the power mode of the driver.
+ * Set the low power mode of the driver on or off.
  *
  * @param      dev           Initialized device descriptor
  * @param      low_power_on  Bool indicating whether low power mode is on or off
@@ -121,36 +126,48 @@ int tsl4531x_set_low_power_mode(tsl4531x_t *dev, bool low_power_on);
 
 /**
  * Start collecting sample in low power mode. This provides asynchronous operation
- * along with tsl4531x_is_sample_ready and tsl4531x_get_sample. It should not be
- * used in high power mode.
+ * along with tsl4531x_time_until_sample_ready and tsl4531x_get_sample. It does
+ * nothing in high power mode.
  *
  * @param      dev           Initialized device descriptor
  *
- * @return     Zero if the driver is in low power mode
- * @return     -EPERM if the driver is not in low power mode
+ * @return     Zero
  */
 int tsl4531x_start_sample(tsl4531x_t *dev);
 
 /**
- * Check whether sample is ready. In low power mode, this indicates whether
- * adequate time has passed since tsl4531x_start_sample has been called, and along
- * with that function and tsl4531x_get_sample, provides asynchronous operation.
- * In high power mode, this indicates whether adequate time has passed to collect
- * a full sample since the driver was switched into high power mode or started up.
+ * Deliver time in microseconds until sample is ready, or zero if it is ready.
+ * In low power mode, this counts down from the point at which tsl4531x_start_sample
+ * is called, and along with that function and tsl4531x_get_sample, provides
+ * asynchronous operation. In high power mode, this counts down from the point
+ * at which the driver is switched into high power mode or started up, and
+ * indicates whether enough time has passed for a full sample to be collected.
  *
- * The waiting time depends on the integration time set in the device initialisation
- * parameters, plus 5% margin to encompass the max times indicated in the datasheet.
+ * Note that for low power mode this rolls over and repeats its behaviour every
+ * 1.2 hours. The sample should have been collected well before this, however.
+ *
+ * The countdown time equals the integration time, which can be set in the
+ * device initialisation parameters, plus 5% margin to encompass the max times
+ * indicated in the datasheet.
  *
  * @param      dev           Initialized device descriptor
  *
- * @return     Bool indicating whether sample is ready to be read
+ * @return    Time in microseconds until sample is ready
  */
-bool tsl4531x_is_sample_ready(const tsl4531x_t *dev);
+uint32_t  tsl4531x_time_until_sample_ready(tsl4531x_t *dev);
 
 /**
  * Reads the sample from the device immediately. In high power mode, this does
- * the same as tsl4531x_simple_read. In low power mode, this provides asynchronous
- * operation along with tsl4531x_start_sample and tsl4531x_is_sample_ready.
+ * the same as tsl4531x_simple_read once the device has performed one
+ * integration cycle. In low power mode, this provides asynchronous operation
+ * along with tsl4531x_start_sample and tsl4531x_time_until_sample_ready which
+ * determine whether the device has performed an integration cycle.
+ *
+ * Note that this function will always return the value stored in the device's
+ * internal register, and this value will be sensible physically, representing
+ * the last time an integration cycle has been performed. However, in order for
+ * it to be accurate, the start_sample and time_until_sample_ready functions
+ * need to also be used, or alternatively the simple_read function can be used.
  *
  * @param      dev           Initialized device descriptor
  *
@@ -168,7 +185,7 @@ int tsl4531x_get_sample(const tsl4531x_t *dev);
  *
  * @return     The sample value in Lux
  */
-int tsl4531x_simple_read(const tsl4531x_t *dev);
+int tsl4531x_simple_read(tsl4531x_t *dev);
 
 #ifdef __cplusplus
 }
