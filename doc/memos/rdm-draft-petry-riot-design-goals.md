@@ -6,9 +6,9 @@
 
 ## Abstract
 
-This memo describes the high level design goals of RIOT. The aim is to reflect
-community consensus on these goals and thereby guide technical discussion around
-specific contributions.
+This memo describes the high level design goals of RIOT. The aim of this
+document is to help developers make design decisions that are consistent with
+each other, and that address the unique benefits that RIOT brings to users.
 
 ## Status
 
@@ -17,29 +17,13 @@ license.
 
 ## Introduction
 
-The primary aim of this document is to help developers make design decisions
-that are consistent with each other, and that serve the needs of the user.
-
-In more detail, the sub-aims are:
-
-- To provide more detail on the design goals, to inform developers and help them
-  make design decisions that are aligned with one another
-- To provide information on relative importance of the design goals, to inform
-  debate where there are competing design tradeoffs
-- To increase developer focus on users, so they intuitively develop a system
-  that is useful to end users and therefore adopted widely
-- To communicate this information efficiently, clearly and unambiguously, so
-  that the goals are the same for everyone.
-
-To achieve these aims, the design requirements are illustrated here in three
-different ways:
+The design goals are illustrated here in three different ways:
 
 1. A short mission statement, suitable to gather a 30 second impression of the
    operating system on a technical level. This can also be re-used in public
    documents, for example the README.md
 2. A series of example use cases
 3. A series of specific design philosophies.
-
 
 # 1. Mission Statement
 
