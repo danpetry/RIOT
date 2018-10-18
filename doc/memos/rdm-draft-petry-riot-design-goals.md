@@ -120,7 +120,10 @@ achievable at the expense of power consumption and configuration difficulty.
 RIOT aims to support constrained devices in class 1 [1]. This means that
 usable RIOT applications in certain key use cases (remote sensing, for example)
 consume ~ 10 KiB of RAM and ~100 KiB of ROM, or less. Larger modules are also
-present to support use cases with higher resource demands.
+present to support use cases with higher resource demands. The extensive use of
+the C language helps cater for low resource requirements. The use of static
+memory unless absolutely necessary, and always in the kernel, facilitates the
+management of available RAM.
 
 ## Constrained networks
 
@@ -165,12 +168,12 @@ configuration in all use cases and assure security nonetheless.
 
 ## Modularity
 
-RIOT decomposes into small modules. Logical separation of different modules
-allows the OS to be tailored to user-specific needs. It also enables a highly
-distributed community to separate development work while reducing the risk of
-knock-on effects across the system. Related to this, it allows third parties to
-develop modules, expanding development efforts from just the RIOT community and
-repo.
+RIOT defines self-contained building blocks, to be combined in different
+configurations. This caters both for versatile use cases and for memory
+constraints. It also enables a highly distributed community to separate
+development work while reducing the risk of knock-on effects across the system.
+Related to this, it allows third parties to develop modules, expanding
+development efforts from just the RIOT community and repo.
 
 There is a balance to be struck, however: too fine-grained can come at a cost of
 unnecessary complexity, higher resources, and difficulty of understanding.
@@ -178,8 +181,10 @@ unnecessary complexity, higher resources, and difficulty of understanding.
 ## Hardware abstraction and cross-hardware portability
 
 Development should be able to be done once and run on any platform using RIOT.
-To achieve this with reduced development effort in porting, the hardware is
-abstracted and the APIs are uniform at as low a level as possible.
+Most of the code is portable across supported hardware. To achieve this with
+reduced development effort in porting, the hardware is abstracted and the APIs
+are uniform at as low a level as possible. The code duplication is minimized
+across configurations.
 
 ## Robustness and resilience
 
@@ -190,14 +195,20 @@ are not production ready, even given tight resource constraints.
 ## Versatility
 
 As indicated above, RIOT addresses a wide variety of use cases in the IoT. This
-means that it is unbiased regarding the protocols and technologies supported. If
-a protocol, sensor, actuator or microcontroller is not yet supported, it can be
-implementedon top of, or underneath, low-level APIs as easily as any other.
+means that it is unbiased regarding the protocols and technologies supported.
+8-bit to 32-bit MCUs, a wide range of boards, and a wide range of use cases are
+supported. Features are implemented flexibly and, where possible, decomposably
+and configurably, so that as wide a range of our addressed use cases and device
+resource requirements are supported. If a protocol, sensor, actuator or
+microcontroller is not yet supported, it can be implemented on top of, or
+underneath, low-level APIs as easily as any other.
 
 ## Unified APIs
 
 In order to achieve clean hardware abstraction and modularity, the APIs across
-the system are as homogeneous as possible. This means that common functionality
+the system are as homogeneous as possible across all supported hardware, even
+for hardware-accessing APIs. This caters for code portability and minimizes
+code duplication. In the APIs, common functionality
 is presented in exactly the same way, while more specific functionality is
 presented in a way that does not break code implemented on top of the APIs of
 other modules.
@@ -206,10 +217,23 @@ other modules.
 
 To achieve interoperability between heterogeneous nodes, and to protect freedom
 0 of the four essential freedoms [4], RIOT is agnostic of the vendor and
-technologies of the hardware. This means that no vendor, protocol,
+technologies of the hardware. Vendor libraries are typically avoided, to
+preclude lock-in and minimize code duplication. No vendor, protocol,
 microcontroller, transceiver, sensor, actuator, or any other technical component
-is preferred over any other for any reason other than the reasons detailed in
-the other design philosophies.
+is tied into through design decisions. None is preferred over any other for any
+reason other than the reasons detailed in the other design philosophies.
+
+## Use of networking and systems standards
+
+In order to ensure the interoperability of devices running RIOT with ones that
+do not, open network protocol standards, e.g. IETF protocols, are customarily
+used. To take full advantage of the largest pool of third party software,
+systems standards, e.g. the ANSI C standard (C99), are customarily used. We may
+provide non-core modules which break from this (alongside modules which do not)
+if there are compelling reasons that serve other design philosophies. Where
+standards are phrased in such a way that particular aspects are open to be
+implemented in different ways, or not implemented at all, these aspects will be
+considered with reference to other design philosophies and to user needs.
 
 # Acknowledgements
 
