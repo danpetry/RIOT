@@ -202,6 +202,15 @@ is presented in exactly the same way, while more specific functionality is
 presented in a way that does not break code implemented on top of the APIs of
 other modules.
 
+## Vendor and technology independence
+
+To achieve interoperability between heterogeneous nodes, and to protect freedom
+0 of the four essential freedoms [4], RIOT is agnostic of the vendor and
+technologies of the hardware. This means that no vendor, protocol,
+microcontroller, transceiver, sensor, actuator, or any other technical component
+is preferred over any other for any reason other than the reasons detailed in
+the other design philosophies.
+
 # Acknowledgements
 
 Thanks to
@@ -211,6 +220,7 @@ Thanks to
 [1] [IETF RFC 7228: Terminolgy for Constrained-Node Networks](https://tools.ietf.org/html/rfc7228)
 [2] [RIOT OS: Towards an OS for the Internet of Things](https://www.riot-os.org/docs/riot-infocom2013-abstract.pdf)
 [3] [RIOT: an Open Source Operating System for Low-end Embedded Devices in the IoT](http://ilab-pub.imp.fu-berlin.de/papers/bghkl-rosos-18-prepub.pdf)
+[4] [Gnu.org: What is free software?](https://www.gnu.org/philosophy/free-sw.en.html)
 
 # Revisions
 
