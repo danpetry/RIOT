@@ -121,9 +121,7 @@ RIOT aims to support constrained devices in class 1 [1]. This means that
 usable RIOT applications in certain key use cases (remote sensing, for example)
 consume ~ 10 KiB of RAM and ~100 KiB of ROM, or less. Larger modules are also
 present to support use cases with higher resource demands. The extensive use of
-the C language helps cater for low resource requirements. The use of static
-memory unless absolutely necessary, and always in the kernel, facilitates the
-management of available RAM.
+the C language helps cater for low resource requirements. 
 
 ## Constrained networks
 
@@ -190,7 +188,9 @@ across configurations.
 
 RIOT's reputation is tied to the robustness of the products that build upon it.
 The users should never be able to cut corners in such a way that the products
-are not production ready, even given tight resource constraints. 
+are not production ready, even given tight resource constraints. The use of
+static memory unless absolutely necessary, and always in the kernel, facilitates
+the stability of the system even given tight resource constraints.
 
 ## Versatility
 
