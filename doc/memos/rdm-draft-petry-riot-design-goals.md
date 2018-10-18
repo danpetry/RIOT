@@ -17,34 +17,11 @@ license.
 
 ## Introduction
 
-The design goals are illustrated here in three different ways:
+The design goals are illustrated here via a series of example use cases,
+including their requirements, from which follow a list of specific design
+philosophies.
 
-1. A short mission statement, suitable to gather a 30 second impression of the
-   operating system on a technical level. This can also be re-used in public
-   documents, for example the README.md
-2. A series of example use cases
-3. A series of specific design philosophies.
-
-# 1. Mission Statement
-
-RIOT is an open-source operating system which makes it easy to deploy sensor and
-actuator networks with challenging resource requirements that can operate for
-years without physical intervention and communicate via common Internet
-standards.
-
-It is designed to abstract away the hardware details of remote and low-access
-sensor and actuator nodes, and allow software to be portable across platforms
-without being locked in to any hardware vendor. An identical programming
-interface is presented across heterogeneous nodes, supporting underlying
-hardware out-of-the-box, with a short learning curve. Those nodes are often
-highly constrained in power and memory and failures cannot be tolerated due to
-their isolation. The operating system is designed to handle these constraints
-with fault-free long term operation. We adopt emerging protocols in constrained
-and mesh networking when they are of sufficiently high quality and validity. The
-use cases for IoT systems are manifold and so are their requirements, and so we
-do not preferentially support one technology or one protocol over another.
-
-# 2. Example Use Cases
+# Example Use Cases
 
 Below are a list of potential use cases with a short description of technical
 requirements for each.
@@ -117,7 +94,7 @@ This involves RIOT acting as a platform to quickly develop demonstrators,
 experimental setups, and research environments. This requires developers with
 basic programming knowledge to be able to define their application logic.
 
-# 3. List of design philosophies
+# List of design philosophies
 
 Below are a list of our design philosophies, including, where appropriate,
 an indication of relative priorities.
