@@ -6,9 +6,8 @@
 
 ## Abstract
 
-This memo describes the high level design goals of RIOT. The aim of this
-document is to help developers make design decisions that are consistent with
-each other, and that address the unique benefits that RIOT brings to users.
+RIOT OS is an operating system aimed at low resource (ROM, RAM, power) devices.
+It supports a range of use cases by achieving a number of specific design goals.
 
 ## Status
 
@@ -17,55 +16,60 @@ license.
 
 ## Introduction
 
-The design goals are illustrated here via a series of example use cases,
-including their requirements, from which follow a list of specific design
-philosophies.
+The decisions that RIOT developers make should be consistent with each other,
+and should consistently deliver the same benefits to users. Such alignment
+results in a compelling product with its own unique strengths, derived from the
+collective consciousness of the RIOT community.
 
-# Example Use Cases
+This consensus document describes these strengths. A series of use cases are presented,
+along with a short description of requirements for each use case. A series of
+design goals then follows, giving: a summary of the requirements addressed by
+the design goal; a description of the design goal itself; and a description of
+tradeoffs with other design goals, with guidelines for resolution.
 
-Below are a list of potential use cases with a short description of technical
-requirements for each.
+# 1 Example Use Cases
 
-Our immediate users are developers, who then create products for these use
-cases. Therefore, our design requirements do not stem directly from the
-requirements of these use cases. They derive from the need for developers to
-develop products for these use cases as quickly, cheaply, and of high a quality
-as possible.
+RIOT's immediate users are developers. Therefore, its requirements relate to
+enabling developers to build products, for the use cases below; achieving high
+quality, short time-to-market, and low cost.
 
-## Environmental sensing
+## 1.1 Environmental sensing
 
-This requires a node to be able to wake up at a time of the order of hours and
-deliver a measurement. This node should be able to operate, without being
-connected to power infrastructure, for timescales of the order of years. It
-should not run out of power and the timings should not drift unacceptably.
+For environmental modelling or urban planning, a network of remote sensor nodes
+can be deployed to collect data. This requires a node to be able to sleep and
+wake up periodically (e.g. every hour); to support the required sensors (air
+composition, temperature, light quality, water quality etc); to support
+long-range, low-power wireless mesh networking protocols; and to be able to
+operate for a number of years without power infrastructure.
 
-## Easy fit, power supply-free smart home devices
+## 1.2 Easy-fit smart home devices
 
-This requires a node to last for a number of weeks without recharge, for example
-to continue operating if a user is on holiday. It should be able to send fairly
-continuous data over a widely supported wireless LAN protocol, in order to
-work together with a commercial home gateways.
+For smart home applications, it may be desirable to fit a device to the
+home without a power supply being required. This requires a node to last for a
+number of weeks without recharge, while continuously collecting data; to
+support the required sensors (temperature, light, humidity, smoke, etc); and to
+connect to a home gateway using a widely supported wireless LAN protocol.
 
-## Communication daughterboards for low-power protocols
+## 1.3 Communication daughterboards for low-power protocols
 
 This requires RIOT to support popular emerging low-power protocols, and to
 provide robust and stable support for commonly used microcontrollers and
 transceivers.
 
-## Logistic tracking
+## 1.4 Logistic tracking
 
 This requires a node to last for a number of weeks without recharge, monitor a
 range of environmental conditions, and send data to a local gateway which will
 be connected to the vehicle's power source and handle GPS localization.
 
-## Wearables
+## 1.5 Wearables
 
 This requires a node to be extremely light and low power, and to send data to a
 public gateway over a very low bandwidth connection, for example LoRaWAN, or to
 the user's smartphone, for example over Bluetooth. The device would require
 charging perhaps every week.
 
-## Diagnostic collection from transport and infrastructure
+## 1.6 Diagnostic collection from transport and infrastructure
 
 This requires a node to be able to be retrofitted or fitted at manufacture to a
 device which may not have its own source of power. This requires the node to be
@@ -73,7 +77,7 @@ able to harvest energy from that device or last for a number of weeks or months
 without charging, to perform sensing of environmental or mechanical parameters,
 and to send data to a user's phone or a public wide-area network.
 
-## Edge systems for building management and automation
+## 1.7 Edge systems for building management and automation
 
 This requires a node to be able to be retrofitted to an already existing
 building, which may involve wireless communication but will likely involve a
@@ -82,19 +86,19 @@ thermostats or heating meters. It will involve sensing of environmental
 conditions such as temperature, air quality and composition, and be able to
 feed back data at a rate that allows control of those conditions.
 
-## Cross-hardware system integration
+## 1.8 Cross-hardware system integration
 
 This involves integrated, distributed sensor and actuator systems running RIOT
 on different hardware platforms. This requires software to be agnostic to the
 underlying hardware and support common protocols.
 
-## Rapid prototyping, research and experimentation
+## 1.9 Rapid prototyping, research and experimentation
 
 This involves RIOT acting as a platform to quickly develop demonstrators,
 experimental setups, and research environments. This requires developers with
 basic programming knowledge to be able to define their application logic.
 
-# List of design philosophies
+# 2 List of design goals
 
 Below are a list of our design philosophies, including, where appropriate,
 an indication of relative priorities.
