@@ -27,57 +27,43 @@ design goals then follows, giving: a summary of the requirements addressed by
 the design goal; a description of the design goal itself; and a description of
 tradeoffs with other design goals, with guidelines for resolution.
 
-# 1 Example Use Cases
+# 1. Example Use Cases
 
 RIOT's immediate users are developers. Therefore, its requirements relate to
 enabling developers to build products, for the use cases below; achieving high
 quality, short time-to-market, and low cost.
 
-## 1.1 Environmental sensing
+## 1.1. Environmental sensing
 
 For environmental modelling or urban planning, a network of remote sensor nodes
-can be deployed to collect data. This requires a node to be able to sleep and
-wake up periodically (e.g. every hour); to support the required sensors (air
-composition, temperature, light quality, water quality etc); to support
-long-range, low-power wireless mesh networking protocols; and to be able to
-operate for a number of years without power infrastructure.
+can be deployed to collect data. These nodes could be distributed as standalone
+devices, or retrofit to existing infrastructure. This requires a node to:
 
-## 1.2 Easy-fit smart home devices
+  i.   Sleep and wake up at timescales of the order of hours
+  ii.  Use the required sensors (air composition, temperature, light quality,
+       water quality etc)
+  iii. Use long-range, low-power wireless mesh networking protocols in the case
+       of very remote nodes or devices fit to publicly used infrastructure
+  iv.  Send data via a user's mobile phone in the case of privately used
+       infrastructure such as rental cycles
+  v.   Operate for timescales of the order of a years without power
+       infrastructure, potentially harvesting energy from the environment.
 
-For smart home applications, it may be desirable to fit a device to the
-home without a power supply being required. This requires a node to last for a
-number of weeks without recharge, while continuously collecting data; to
-support the required sensors (temperature, light, humidity, smoke, etc); and to
-connect to a home gateway using a widely supported wireless LAN protocol.
+## 1.2. Logistic tracking
 
-## 1.3 Communication daughterboards for low-power protocols
+To manage the movement of resources, sensor nodes which can record the location
+and state of goods can reduce loss of value during transit. This requires a node
+to:
 
-This requires RIOT to support popular emerging low-power protocols, and to
-provide robust and stable support for commonly used microcontrollers and
-transceivers.
+  i.   Last for a number of weeks without recharge
+  ii.  Use the required sensors (temperature, humidity, exposure to certain
+       gases and light conditions, etc)
+  iii. Send data to a local gateway, which itself is connected to the vehicle's
+       power source and handles GPS localization.
 
-## 1.4 Logistic tracking
+## 1.3. Edge systems for building management and automation
 
-This requires a node to last for a number of weeks without recharge, monitor a
-range of environmental conditions, and send data to a local gateway which will
-be connected to the vehicle's power source and handle GPS localization.
-
-## 1.5 Wearables
-
-This requires a node to be extremely light and low power, and to send data to a
-public gateway over a very low bandwidth connection, for example LoRaWAN, or to
-the user's smartphone, for example over Bluetooth. The device would require
-charging perhaps every week.
-
-## 1.6 Diagnostic collection from transport and infrastructure
-
-This requires a node to be able to be retrofitted or fitted at manufacture to a
-device which may not have its own source of power. This requires the node to be
-able to harvest energy from that device or last for a number of weeks or months
-without charging, to perform sensing of environmental or mechanical parameters,
-and to send data to a user's phone or a public wide-area network.
-
-## 1.7 Edge systems for building management and automation
+To 
 
 This requires a node to be able to be retrofitted to an already existing
 building, which may involve wireless communication but will likely involve a
@@ -86,17 +72,44 @@ thermostats or heating meters. It will involve sensing of environmental
 conditions such as temperature, air quality and composition, and be able to
 feed back data at a rate that allows control of those conditions.
 
+## 1.9 Rapid prototyping, research and experimentation
+
+This involves RIOT acting as a platform to quickly develop demonstrators,
+experimental setups, and research environments. This requires developers with
+basic programming knowledge to be able to define their application logic.
+
 ## 1.8 Cross-hardware system integration
 
 This involves integrated, distributed sensor and actuator systems running RIOT
 on different hardware platforms. This requires software to be agnostic to the
 underlying hardware and support common protocols.
 
-## 1.9 Rapid prototyping, research and experimentation
+## 1.2 Easy-fit smart home devices
 
-This involves RIOT acting as a platform to quickly develop demonstrators,
-experimental setups, and research environments. This requires developers with
-basic programming knowledge to be able to define their application logic.
+For smart home applications, it may be desirable to fit a device to the
+home without a power supply being required. This requires a node to last for a
+number of weeks without recharge, while continuously collecting data; to
+use the required sensors (temperature, light, humidity, smoke, etc); and to
+connect to a home gateway using a widely supported wireless LAN protocol.
+
+## 1.3 Communication daughterboards for low-power protocols
+
+To provide immediate support for popular emerging low-power communications
+protocols, plug-and-play daughterboards can be produced, which run RIOT and the
+relevant communications stack. They require RIOT to support these protocols; to
+support commonly used low-power microcontrollers and transceivers; and to be
+able to operate in slave mode for board protocols which use a master-slave
+model.
+
+## 1.5 Wearables
+
+This requires a node to be extremely light and low power, and to send data to a
+public gateway over a very low bandwidth connection, for example LoRaWAN, or to
+the user's smartphone, for example over Bluetooth. The device would require
+charging perhaps every week.
+
+
+
 
 # 2 List of design goals
 
