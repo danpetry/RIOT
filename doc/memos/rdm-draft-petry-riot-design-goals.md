@@ -44,15 +44,35 @@ devices, or retrofit to existing infrastructure. This requires a node to:
        water quality etc)
   iii. Use long-range, low-power wireless mesh networking protocols in the case
        of very remote nodes or devices fit to publicly used infrastructure
-  iv.  Send data via a user's mobile phone in the case of privately used
+  iv.  Interoperate with other nodes in the network if they are from a
+       different vendor or running different implementations of a protocol
+  v.   Send data via a user's mobile phone in the case of privately used
        infrastructure such as rental cycles
-  v.   Operate for timescales of the order of a years without power
+  vi.  Operate for timescales of the order of a years without power
        infrastructure, potentially harvesting energy from the environment.
 
-## 1.2. Logistic tracking
+## 1.2. Rapid prototyping, research and experimentation
 
-To manage the movement of resources, sensor nodes which can record the location
-and state of goods can reduce loss of value during transit. This requires a node
+For research situations, proof-of-concepts for startups, or personal projects,
+sensor nodes which are not intended for mass market, but that need to be made
+quickly, with a low learning curve and little specialist knowledge, can be developed.
+This requires a node to:
+
+  i.   Be up and running quickly in a situation where the developer may not
+       have much, or any, experience with embedded programming
+  ii.  Be highly customizable, and upgradeable after initial development and
+       deployment
+  iii. Use a wide range of commonly available sensors, particularly those
+       that are available on plug-in daughterboards
+  iv.  Be based on a development board that is easily programmable and requires
+       little specialist knowledge to use
+  v.   Be programmable in as similar a manner as possible compared with other,
+       different sensor nodes in the same deployment.
+
+## 1.3. Logistic tracking
+
+To manage the movement of resources, sensor nodes to record the location
+and state of goods can reduce loss of value during transit can be deployed. This requires a node
 to:
 
   i.   Last for a number of weeks without recharge
@@ -61,55 +81,39 @@ to:
   iii. Send data to a local gateway, which itself is connected to the vehicle's
        power source and handles GPS localization.
 
-## 1.3. Edge systems for building management and automation
+## 1.4. Edge systems for building management and automation
 
-To 
+To improve the comfort of occupants, reduce energy consumption, and reduce
+operating costs, sensors that monitor the environmental conditions in a building
+can be deployed. These sensors then influence the control of the HVAC (heating,
+ventilation, and air conditioning) systems. This requires a node to:
 
-This requires a node to be able to be retrofitted to an already existing
-building, which may involve wireless communication but will likely involve a
-provided power source to the node, for example in the case of powered
-thermostats or heating meters. It will involve sensing of environmental
-conditions such as temperature, air quality and composition, and be able to
-feed back data at a rate that allows control of those conditions.
+  i.   Connect to the building's power infrastructure
+  ii.  Connect to the building's control computers via common wired or wireless
+       LAN protocols
+  iii. Use the required sensors (temperature, humidity, pressure etc)
+  iv.  Deliver data at a rate and time accuracy that allows stable feedback
+       control of the parameters being measured.
 
-## 1.9 Rapid prototyping, research and experimentation
+## 1.5. Easy-fit smart home devices
 
-This involves RIOT acting as a platform to quickly develop demonstrators,
-experimental setups, and research environments. This requires developers with
-basic programming knowledge to be able to define their application logic.
+For smart home applications, devices which can be fit to the home without a
+power supply can be deployed. This requires a node to:
 
-## 1.8 Cross-hardware system integration
+  i.   Last for a number of weeks without recharge, while continuously
+       collecting data
+  ii.  Use the required sensors (temperature, light, humidity, smoke, etc)
+  iii. Connect to a home gateway using a widely supported wireless LAN protocol.
 
-This involves integrated, distributed sensor and actuator systems running RIOT
-on different hardware platforms. This requires software to be agnostic to the
-underlying hardware and support common protocols.
+## 1.6. Communication daughterboards for low-power protocols
 
-## 1.2 Easy-fit smart home devices
-
-For smart home applications, it may be desirable to fit a device to the
-home without a power supply being required. This requires a node to last for a
-number of weeks without recharge, while continuously collecting data; to
-use the required sensors (temperature, light, humidity, smoke, etc); and to
-connect to a home gateway using a widely supported wireless LAN protocol.
-
-## 1.3 Communication daughterboards for low-power protocols
-
-To provide immediate support for popular emerging low-power communications
+To provide immediate support for popular emerging low-power communication
 protocols, plug-and-play daughterboards can be produced, which run RIOT and the
-relevant communications stack. They require RIOT to support these protocols; to
-support commonly used low-power microcontrollers and transceivers; and to be
-able to operate in slave mode for board protocols which use a master-slave
-model.
+relevant communications stack. This requires the daughterboard to:
 
-## 1.5 Wearables
-
-This requires a node to be extremely light and low power, and to send data to a
-public gateway over a very low bandwidth connection, for example LoRaWAN, or to
-the user's smartphone, for example over Bluetooth. The device would require
-charging perhaps every week.
-
-
-
+  i.   Support popular emerging low-power communication protocols
+  ii.  Support commonly used low-power microcontrollers and transceivers
+  iii. Operate in slave mode for board protocols which use a master-slave model.
 
 # 2 List of design goals
 
@@ -164,6 +168,8 @@ widely-used languages, out-of-the-box examples, simple build configuration, and
 tools and platforms that support RIOT. Ease of use is, however, subject to the
 robustness and resilience requirements below.
 
+[todo: mention defining application logic only where appropriate]
+
 Developers, likewise, should be able to start contributing in as short a time as
 possible, and so the design and APIs should remain clear and generally follow
 common and easy to understand principles, unless there are strong benefits that
@@ -200,6 +206,15 @@ Most of the code is portable across supported hardware. To achieve this with
 reduced development effort in porting, the hardware is abstracted and the APIs
 are uniform at as low a level as possible. The code duplication is minimized
 across configurations.
+
+moved from above - ## 1.5 Cross-hardware system integration
+
+TODO: why do we do this and what use case(s) does it tie into?
+
+This involves integrated, distributed sensor and actuator systems running RIOT
+on different hardware platforms. This requires software to be agnostic to the
+underlying hardware and support common protocols.
+
 
 ## Robustness and resilience
 
