@@ -220,6 +220,9 @@ standards are phrased in such a way that particular aspects are open to be
 implemented in different ways, or not implemented at all, these aspects will be
 considered with reference to other design philosophies and to user needs.
 
+
+
+
 ## Vendor and technology independence
 
 To achieve interoperability between heterogeneous nodes, and to protect freedom
@@ -327,7 +330,12 @@ This involves integrated, distributed sensor and actuator systems running RIOT
 on different hardware platforms. This requires software to be agnostic to the
 underlying hardware and support common protocols.
 
-[TODO: Unified APIs - integrate this bit in this section]
+## Unified APIs
+
+- the reason we want to have this is so that a user doesn't have to get used to
+  new APIs every time they do a new module, not because we want to have
+  portability. This is different from hardware abstraction APIs. This is about
+  the APIs looking and feeling as similar as possible.
 
 In order to achieve clean hardware abstraction and modularity, the APIs across
 the system are as homogeneous as possible across all supported hardware, even
