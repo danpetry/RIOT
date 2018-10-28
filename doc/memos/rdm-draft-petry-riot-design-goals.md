@@ -17,17 +17,16 @@ license.
 
 ## Introduction
 
-The decisions that developers make should ideally be generally aligned and
-deliver similar benefits to users, to result in a product with clear strengths.
-
-This document describes the consensus of RIOT design in the community, recording
-the decisions that are typically made and the reasoning behind them. A series of our most commonly addressed
-use cases are presented, with a short description of requirements for each. A
-series of design philosophies we follow is then described, giving: a summary of
-the requirements addressed; a description of the philosophy; a description of
-decisions that are typically made in that area.
+This document describes the consensus of RIOT design in the community, including
+the decisions that are typically made and the reasoning behind them. The aim is
+to guide future work by collecting and recording what has been done in the past.
+It gives a list of our most commonly addressed use cases, followed by a list of
+design philosophies.
 
 # 1. Example Use Cases
+
+RIOT is a general purpose IoT operating system. Below is a non-exhaustive list
+of use cases we address.
 
 ## 1.1. Environmental sensing
 
@@ -40,7 +39,7 @@ devices or fit to infrastructure. This requires a node to:
   - Communicate via long-range, low-power wireless mesh networking protocols
   - Interoperate with other non-RIOT nodes or gateways
   - Collect data at timescales of the order of hours
-  - Potentially send data via a user's mobile phone
+  - Potentially communicate with a smartphone
   - Potentially operate for years without power infrastructure or user
     intervention.
 
@@ -50,7 +49,7 @@ For experimentation and hacking, nodes can be developed by developers that
 don't have extensive embedded experience. This requires a node to:
 
   - Allow easy running and loading of simple applications
-  - Allow easy setting up of mesh networks
+  - Allow easy setup of mesh networks
   - Be highly customizable and updateable
   - Be able to use a range of plug-in sensors and actuators
   - Be usable with or without networking
@@ -63,7 +62,7 @@ don't have extensive embedded experience. This requires a node to:
 For management of goods in transit, sensor nodes that record the environmental
 conditions of goods are deployed. This requires a node to:
 
-  - Last for several months without recharge
+  - Last for several months without a charge
   - Include sensors for temperature, humidity, exposure to certain gases and
     light conditions, etc
   - Send data to a local gateway.
@@ -96,8 +95,9 @@ Easy fit, easy-to-use devices can be used by consumers to monitor and manage
 their home. This requires a node to:
 
   - Include sensors for temperature, light, humidity, smoke, etc
-  - Be secure but also usable for people with no technical knowledge
+  - Be usable for people with no technical knowledge but still secure
   - Connect to a commercial home gateway from a different vendor
+  - Potentially communicate with a smartphone
   - Potentially not be powered from the house
   
 ## 1.6. Daughterboards
@@ -112,9 +112,9 @@ daughterboard to:
 
 # 2 List of design goals
 
-RIOT's immediate users are developers. Its design goals are therefore targeted at
-supporting developers to build products for the use cases above, with high
-quality, short time-to-market, and low cost.
+RIOT is friendly to developers, and lets them easily build and deploy IoT. Below
+is a list of design philosophies we follow, including a description of how they
+address the use cases and some decisions that are typically made in each area.
 
 ## Small memory footprint
 
