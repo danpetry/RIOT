@@ -1,14 +1,15 @@
 
- - rdm-draft-petry-riot-design-goals.md
- - Title: RIOT design goals
+ - rdm-draft-petry-riot-design-guidelines.md
+ - Title: RIOT design guidelines
  - Author: Daniel Petry  
  - Date: October 2018
 
 ## Abstract
 
-RIOT OS is an operating system aimed at low resource (ROM, RAM, power) devices.
-It supports a range of use cases. To achieve that support, developers
-typically follow the design philosophies described here.
+RIOT is an operating system aimed at low resource (ROM, RAM, power) devices.
+It is general purpose within the sphere of IoT, and supports a range of use
+cases. To achieve that support, the design philosophies described herein are
+followed.
 
 ## Status
 
@@ -17,260 +18,268 @@ license.
 
 ## Introduction
 
-This document describes the consensus of RIOT design in the community, including
-the decisions that are typically made and the reasoning behind them. The aim is
-to guide future work by collecting and recording what has been followed in the
-past.  It gives a list of our most commonly addressed use cases, followed by a
-list of design philosophies.
+This document describes the design decisions that are typically made by the
+RIOT community, and the reasoning behind them. The aim is to collect consensus
+in order to guide future development work. It gives a description of our most
+commonly addressed use cases, and a list of design philosophies that are
+commonly followed.
 
-# 1. Example Use Cases
+# 1. Use Cases
 
 RIOT is a general purpose IoT operating system. Below is a non-exhaustive list
-of use cases we address.
+of use cases it addresses.
 
 ## 1.1. Environmental sensing
 
-For environmental modelling or urban planning, networks of remote sensor nodes
-can be deployed to collect data. These nodes can be distributed as standalone
-devices or fit to infrastructure. This requires a node to:
+Networks of remote sensor nodes can be deployed to study the environment or
+assist with urban planning. These devices can be distributed on their own or
+fit to infrastructure. The devices need to:
 
-  - Include sensors for air composition, temperature, light quality, water
-    quality, etc
-  - Communicate via long-range, low-power wireless mesh networking protocols
-  - Interoperate with other non-RIOT nodes or gateways
-  - Collect data at timescales of the order of hours
+  - Support long-range, low-power wireless mesh networking protocols
+  - Interoperate with non-RIOT nodes or gateways
+  - Collect data on timescales of the order of hours
+  - Sense air composition, temperature, light quality, water quality, etc
   - Potentially communicate with a smartphone
-  - Potentially operate for years without power infrastructure or user
-    intervention.
+  - Potentially operate for years without power infrastructure or maintenance
 
 ## 1.2. Rapid prototyping, research and experimentation
 
-For experimentation and hacking, nodes can be developed by developers that
-don't have extensive embedded experience. This requires a node to:
+In experimentation and hacking situations, development needs to be accessible
+to amateur users. This means that the software and hardware should:
 
-  - Allow easy running and loading of simple applications
-  - Allow easy setup of mesh networks
+  - Let users easily run and load simple applications
+  - Let users easily set up mesh networks
   - Be highly customizable and updateable
-  - Be able to use a range of plug-in sensors and actuators
-  - Be usable with or without networking
-  - Be based around a common, easy to use development board
-  - Be programmable in the same way as other sensor nodes with different
-    hardware.
+  - Support a range of plug-in sensors and actuators
+  - Be usable with or without different features, including networking
+  - Use commonly available, easy to use development boards
+  - Come with an easy to use toolkit that has a minimum of setup time
+  - Let users easily port programs to different devices.
 
 ## 1.3. Logistic tracking
 
-To manage goods in transit, sensor nodes that record the environmental
-conditions of goods can be used. This requires a node to:
+Sensors that record environmental conditions can be used to manage goods in
+transit. These sensors need to:
 
-  - Last for several months without a charge
-  - Include sensors for temperature, humidity, exposure to certain gases and
-    light conditions, etc
-  - Send data to a local gateway.
+  - Last for several months without charging
+  - Sense temperature, humidity, exposure to certain gases and light
+    conditions, etc
+  - Regularly send data to a local gateway.
 
 ## 1.4. Distributed system monitoring and control
 
-To monitor and control distributed systems, networks of sensors and
-actuators can be used. This requires a node to:
+Distributed networks of sensors and actuators can be employed in certain
+control applications, coordinated by a central computer. The nodes need to:
 
-  - Be extremely cheap if it is a mass-market product
-  - Include sensors for pressure, temperature, torque, flow, rotary encoding,
+  - Be extremely cheap, if they're in a mass-market product and there's a large
+    number of them
+  - Sense pressure, temperature, torque, flow, rotary position and velocity,
     etc
-  - Include motors, solenoids, valves, heating elements, etc
-  - Collect and send data with a low latency or synchronized timestamp
-  - Potentially run a control loop.
+  - Control motors, solenoids, valves, heating elements, etc
+  - Collect and send data with a low latency, or at least a well synchronized
+    timestamp
+  - Potentially run control algorithms themselves.
 
 ## 1.4. Edge systems for building management and automation
 
-Edge nodes in building management systems can be used for various sensing and
-user interfacing tasks. This requires a node to:
+Various sensing and user interfacing tasks can be done by edge nodes in
+buildings. The nodes need to be able to:
 
-  - Be powered from the building
-  - Connect to the building management system via wired or wireless links
-  - Include sensors for temperature, humidity, pressure, current, etc
-  - Deliver data with reasonably accurate timing.
+  - Connect to the building's power
+  - Connect to the building management system, via wired or wireless
+    connections
+  - Sense temperature, humidity, pressure, current, etc
+  - Deliver data with reasonable timing accuracy.
 
 ## 1.5. Smart home devices
 
-Easy fit, easy-to-use devices can be used by consumers to monitor and manage
-their home. This requires a node to:
+Easy to use devices can let consumers monitor and control their home
+automatically. The devices need to be able to:
 
-  - Include sensors for temperature, light, humidity, smoke, etc
-  - Be usable for people with no technical knowledge but still secure
-  - Connect to a commercial home gateway from a different vendor
-  - Potentially communicate with a smartphone
-  - Potentially not be powered from the house
+  - Sense temperature, light, humidity, smoke, etc
+  - Be usable but secure for people with no technical knowledge 
+  - Connect to a commercial home gateway 
+  - Often communicate with a smartphone
+  - Connect to the building's power or provide their own power, depending on
+    the product
   
 ## 1.6. Daughterboards
 
-Daughterboards can be used by developers to get immediate support for a piece of
-hardware, or to outsource a task from the main processor. This requires the
-daughterboard to:
+Plug-in boards can give devices immediate support for a protocol or standard,
+or let them outsource a task from the main processor. This requires the
+board to:
 
-  - Be reliable from the point of view of the main processor
-  - Present a usable interface to the main processor
-  - Potentially include a transciever, sensor, actuator, etc.
+  - Perform its stated task reliably
+  - Respond reliably to commands from the main processor
+  - Include and support any relevant hardware
 
-# 2 List of design goals
+# 2 Design philosophies
 
-RIOT is friendly to developers, and lets them easily build and deploy stable IoT
-networks. Below is a list of design philosophies we follow, including a
-description of how they address the use cases and some decisions that are
-typically made in each area.
+RIOT is friendly to users, and lets them easily build and deploy stable IoT
+networks. Below is a list of design philosophies that are followed to achieve
+this, including a short description and any decisions and tradeoffs that
+developers typically make in each area.
 
 ## Small memory footprint
 
-Most of the use cases above are well addressed by devices in class 1 of
-constrained nodes [1], i.e. those with ~10 KiB of available RAM and ~100 KiB of
-ROM. RIOT supports them out of the box with minimal work. If small price
-differences are important or the energy budget is particularly tight, the
-available memory might be near the bottom of this class. Our current
-over-the-air update implementation also reduces the available ROM by over half.
-RIOT therefore is usable on devices with ~2 KiB of RAM and ~10 KiB of ROM via
-user optimizations and specialised modules.
+Most of RIOT's targeted use cases are well addressed by devices in class 1 of
+the taxonomy presented in [1]. If small price differences are important or the
+energy budget is particularly tight, the available memory might be near the
+bottom of this class. Over-the-air updating currently reduces the available
+ROM by over half.
 
-Developers go the extra mile to figure out where they can remove the last few
-bytes for free. Optimisations often lean towards memory over run time
+RIOT should provide out-of-the box support for devices with ~10 KiB of
+available RAM and ~100 KiB of ROM. It should be just as possible to run it on
+lower end devices, starting at ~2 KiB of RAM and ~10 KiB of ROM, with manual
+optimizations and specialised modules.
+
+Developers often go the extra mile to figure out where they can remove the last
+few bytes for free. Optimisations often lean towards memory over run time
 performance. APIs are simple and flexible and place the onus on the application
-developer to write a good program. Easy to use, less optimized functions are
-often available as well though, which aren't linked if they aren't used.
-Modules can sometimes be configured at build time to use more or less memory.
+developer to write a good program. Modules are sometimes made build time
+configurable, to give users the choice of which features they want to spend
+their memory on.
 
 ## Short learning curve
 
-To make RIOT ideal for prototyping and hacking, and to reduce development time
-in general, there is a minimal amount of RIOT-specific learning needed to use
-the OS.
+To make RIOT ideal for prototyping and hacking, it doesn't require years of
+professional experience to use.
 
-Developers reduce the learning curve for embedded C-skilled users by following
-common systems and networking standards that have reached a sufficient level of
-validation. To support users with less embedded experience, out-of-the-box
-examples and bindings to high level scripting languages are sometimes written,
-allowing them to focus on their application logic.
+Out-of-the-box examples, bindings to high level scripting languages, and
+"easier" API functions and abstractions are often written in order to let users
+of a wide variety of skill levels use RIOT. The easier features are written in
+such a way that they aren't linked, and therefore don't use memory, if they're
+not used. No user of any skill level should be tripped up because they haven't
+manually configured a feature that they wouldn't understand. For users with more
+experience in embedded C, RIOT should still demand as little RIOT-specific
+learning as possible. Common systems and networking standards such as C99,
+POSIX, libc, UDP, CoAP, IPv6, and so on are therefore supported.
 
 ## Interoperability
 
 RIOT nodes need to communicate reliably with non-RIOT nodes. The protocols need
-to be fully familiar to them and behave in a way they can handle.
+to be familiar to them and behave in the way they expect.
 
-Modules are made available which implement open network protocol standards. The
-(optional) features required by the network depend on the deployment scenario;
-default configurations try to address the most common scenarios.  Whether
-certain features are implemented or not, modules handle all network traffic in a
-compliant manner.
+RIOT should support open network protocol standards once they have reached a certain level
+of validity and popularity. If features of the specification are optional, the
+implementation should be configurable to allow users to choose what they want
+to use. Whatever the configuration, nodes should handle all possible traffic in
+a compliant manner.
 
 ## Vendor and technology independence
 
-A wide range of use cases are addressed, and all vendors and technologies are
-supported equally. This allows users to choose what's best for them, without an
-implicit bias in the operating system. Furthermore, RIOT is Free Software, and
-allows users to run it as they wish, for any purpose [4]; implying freedom from
-tie-in.
+All vendors and technologies are supported equally. This means users can choose
+what's best for them, without any inherent bias. Moreover, RIOT is Free
+Software [1], which means users are free to use it as they wish without
+lock-in.
 
-Choice of hardware or standards to support should be based only on their
-usefulness, not on brand appeal. Abstracting modules cleanly from other modules
-allows them to keep any allegiance to themselves.
+The choice of the hardware and standards RIOT supports should only depend on
+how useful they are. By abstracting modules cleanly from each other, any
+allegiance they may have is kept to themselves.
 
 ## Energy efficiency
 
-RIOT nodes need to be able to last for up to several years away from power
-infrastructure, placing requirements on the node to manage energy carefully.
+RIOT nodes sometimes need to last for several years without external power, so they need
+to manage energy carefully. RIOT's tickless scheduler lets devices sleep while
+they aren't collecting data.
 
-The tickless scheduler allows devices to deep sleep while they aren't collecting
-data. Developers leverage the benefits of such a scheduler and address its
-programming challenges when writing their modules. They try not to demand that
-users do the same. Modules however can place some of the onus on users by
-presenting low power modes and API calls.
+Developers often leverage the benefits and address the programming challenges
+of a tickless scheduler when they write their modules. They try not to demand
+that users do the same. Implementations do sometimes place some of the onus on
+users by giving them modes and functions that use more or less power.
 
 ## Real-time capabilities
 
-The range of use cases targeted means that different real-time guarantees are
-required, from soft real-time performance for low-frequency remote sensing, to
-hard real-time performance for high frequency sensing and control applications.
+Different real-time guarantees are required for different use cases. Low
+frequency sensing needs only soft real time support, and can handle less timing
+accuracy so long as the timers support long timescales. High frequency sensing
+and control applications need hard real time guarantees and sub-millisecond
+timing accuracy.
 
-Soft real-time support is implemented by default, and long timescales are easily
-achievable at the cost of accuracy. Developers also make it possible, with more
-expertise, for users to write programs with hard deadlines and more accurate
-timing.
+RIOT should deliver soft real-time performance by default, to cover the widest
+range of use cases. Programs with hard deadlines should be achievable with more
+expertise. It should provide configurable timers which can competently handle the
+timescales of any application.
 
 ## Internet security
 
-It is important that nodes are resilient against attacks from computers with
-many times their processing power.
+It is crucial that internet connected devices are resilient against cyber
+attacks.
 
-RIOT should protect users against the threats specific to their use case.
-Security is generally implemented in a way that is as easy to use as possible
-while still being strong. Security flaws are patched in a timely manner and made
-available via over-the-air updates.
+RIOT should protect users from all the threats they're likely to experience,
+including computers with many times their processing power. Security should be
+as easy to use as possible while still strong. Security flaws should be patched
+as quickly as possible. Convenient updating mechanisms should allow users to
+apply patches to their nodes, wherever they are.
 
 ## Stability
 
-Whether in remote, inaccessible deployments or control applications, nodes
-shouldn't fail unexpectedly. RIOT aims for stability across all supported
-hardware.
+Nodes shouldn't fail because of RIOT. Given perfect hardware and a moderately
+well written application, it should be able to run indefinitely. This should
+apply to all supported platforms. 
 
-Thorough testing, both manual and automated, and thorough peer review, is done
-to reduce the risk of new bugs and regressions. To prevent out of memory errors
-during runtime, static memory is used unless absolutely necessary, and always in
-the kernel. Stability is guaranteed while minimizing memory usage by avoiding
-bespoke error handlers for modules and guards against bugs elsewhere in RIOT.
+The testing and peer review processes that ensure this should be constantly
+being improved, including automating it where it's possible.  To prevent out of
+memory errors during runtime, dynamic allocation isn't used unless it's
+absolutely necessary, and never in the kernel. Error handlers should do what's
+required and no more, to save memory; bespoke error handlers and guards against
+bugs elsewhere in RIOT should be avoided.
 
 ## Constrained networking
 
-Communication can be constrained because of distance, lack of resources, or
-physical barriers. RIOT aims to achieve best-in-class communication robustness
-despite these constraints.
+"Constrained" means that available memory, energy and processor cycles are so
+reduced as to become a dominant consideration in design requirements [1]. RIOT
+should deliver best-in-class bandwidth and robustness nevertheless.
 
-Mesh networking standards which are the best available to handle these
-conditions are made available to users. Developers have implemented stacks
-extensibly so that performance remains up to date. Implementations consider
-requirements of real scenarios, balancing memory that is typically available
-against wider architectural and robustness requirements.
+Network stacks should remain up-to-date as relevant standards emerge, and some
+are extensible to support this. Users should be able to adapt them and choose
+between different stacks; they should be able to get the best performance and
+most functionality possible from whatever resources they have available.
 
 ## Versatility
 
-Different use cases need different hardware, features and performance. RIOT aims
-to provide everything required, either in its code base or supported packages.
+RIOT should provide everything users need, either in its code base or in
+external packages we support.
 
-Developers constantly add new support for hardware and new software packages.
-Implementations are kept application nonspecific, unless one is obviously
-inherent. By default, modules generally lean towards being accessible to as many
-users as possible, with less common use cases addressable via manual
-configuration.
+New support is always welcomed. Modules should be application nonspecific,
+where it's feasible. Default configurations should be as accessible to as many
+users, and address as many use cases, as possible.
 
 ## Modularity
 
-A modular approach lets RIOT adapt to different memory, functionality, and
-performance demands. It also helps helps development efforts scale in a
+Being modular lets RIOT address many different memory, functionality, and
+performance demands. It also helps development efforts to scale in a
 distributed community.
 
-Modules are cleanly abstracted from one another, and code duplication is
-minimized. Features to manage or exploit this modularity are made available,
-including configuration methods, methods to integrate software from third-party
-sources, and modules that are themselves modular. The granularity of modules is
-fairly stable and similar across different types of module. In general,
-application developers shouldn't want to split any modules, but they shouldn't
-be unneccesarily fine-grained either.
+Modules should be cleanly abstracted from one another. Anything needed for a
+new module should be localized to its own folder. Code should not be
+duplicated, unless it's unavoidable. It should be easy to manage or exploit
+this modularity, for example through configuration, easy integration of
+third-party source code, and different layers of modularity. The granularity of
+modules is fairly stable, and similar across different types of module. In
+general, users shouldn't want to split modules, but they shouldn't be
+unneccesarily fine-grained either.
 
 ## Cross-hardware portability
 
-Users may want to write a program and re-use it on different hardware. RIOT aims
-for application code to be completely portable to other platforms running RIOT,
-if it's valid with the hardware.
+Users might want to write a program, and then run it on a different piece of
+hardware. RIOT should allow user code to be completely portable, so long as
+it's valid with the hardware.
 
-As as low a level as possible, the hardware is abstracted and the same API is
-presented to upper layers. Above this, modules are kept agnostic to the specific
-hardware, only requiring knowledge of whether the hardware does or doesn't
-provide certain functionality. If it doesn't, the module should handle this
-accordingly or not compile.
+The hardware abstractions are stable and interfaces are firmly defined. New
+implementations should follow these definitions. Above the HAL, the only thing
+that modules should know about hardware is whether a required feature is there
+or not. If it isn't, the module should adapt accordingly, or not compile.
 
 ## Unified APIs
 
 Users don't want to be confused by semantic differences between APIs. RIOT
 provides a similar "look and feel" across all our APIs.
 
-Standard features of interfaces for modules of the same type, including naming
-conventions, are defined. Layers on top of modules, such as SAUL and the Sock
-API, are built as well, to make the interfaces identical.
+RIOT's interfaces should only differ in the ways that their modules differ.
+Where possible, layers should sit on top of modules of the same type, to give
+an identical interface. Semantics and naming conventions should be the same
+throughout the system.
 
 # Acknowledgements
 
