@@ -76,9 +76,21 @@ static void _send_message(void)
      * Keep in mind that the order in which the data is written into the
      * serialization needs to match the decoders order.
      */
-    lora_serialization_write_temperature(&serialization, 25.3);
-    lora_serialization_write_uint8(&serialization, 82);
-    lora_serialization_write_humidity(&serialization, 50.2);
+
+    /* Air temperature and humidity */
+    lora_serialization_write_temperature(&serialization, 22.3);
+    lora_serialization_write_humidity(&serialization, 35.4);
+
+    /* Visible light intensity */
+    lora_serialization_write_uint8(&serialization, 789);
+
+    /* Soil temperature */
+    lora_serialization_write_temperature(&serialization, 23.4);
+
+    /* Soil moisture levels */
+    lora_serialization_write_humidity(&serialization, 68.3);
+    lora_serialization_write_humidity(&serialization, 45.4);
+    lora_serialization_write_humidity(&serialization, 72.3);
 
     /* The send call blocks until done */
     semtech_loramac_send(&loramac, serialization.buffer, serialization.cursor);

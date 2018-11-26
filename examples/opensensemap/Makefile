@@ -9,9 +9,9 @@ RIOTBASE ?= $(CURDIR)/../..
 
 BOARD_INSUFFICIENT_MEMORY := nucleo-f031k6 nucleo-f042k6 nucleo-l031k6
 
-DEVEUI ?= 0000000000000000
-APPEUI ?= 0000000000000000
-APPKEY ?= 00000000000000000000000000000000
+DEVEUI ?= 00FA3F26B4128C7D
+APPEUI ?= 70B3D57ED001193D
+APPKEY ?= 90579278EAA9870F1380B39E4F40FC7A
 
 # Default radio driver is Semtech SX1276 (used by the B-L072Z-LRWAN1 board)
 DRIVER ?= sx1276
@@ -32,6 +32,7 @@ FEATURES_REQUIRED += periph_rtc
 
 CFLAGS += -DREGION_$(REGION)
 CFLAGS += -DDEVEUI=\"$(DEVEUI)\" -DAPPEUI=\"$(APPEUI)\" -DAPPKEY=\"$(APPKEY)\"
+CFLAGS += -DLORAMAC_ACTIVE_REGION=LORAMAC_REGION_$(REGION)
 
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the
