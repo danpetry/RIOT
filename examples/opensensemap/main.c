@@ -82,7 +82,7 @@ static void _send_message(void)
     lora_serialization_write_humidity(&serialization, 35.4);
 
     /* Visible light intensity */
-    lora_serialization_write_uint8(&serialization, 789);
+    lora_serialization_write_uint8(&serialization, 213);
 
     /* Soil temperature */
     lora_serialization_write_temperature(&serialization, 23.4);
