@@ -4,34 +4,56 @@
  - Author: Daniel Petry
  - Date: October 2018
 
+## Abstract
+
+Although several papers have been published that give a broad technical
+overview of RIOT, there are as yet no documents focused specifically on guiding
+technical decision making within the developer community. This document aims to
+reflect a consensus on the reasoning behind RIOT design and implementation, and
+so inform efforts for the future. It has been reviewed widely by both
+contributors and maintainers to ensure it reflects collective understanding;
+differences in understanding that were exposed in the process were resolved.
+
+The result is a record of concrete criteria to help new contributors get up to
+speed more quickly, and to help both new and experienced developers to resolve
+technical debates.
+
 ## Status
 
 The content of this document is licensed with a Creative Commons CC-BY-SA
 license.
 
-# Introduction
+## Terminology
 
-RIOT is an operating system aimed at low resource (ROM, RAM, power) devices.
-It is general-purpose within the sphere of constrained IoT and supports a range
-of use cases. To achieve that support, a number of design philosophies are
-typically followed by developers.
+Throughout this document, the term "users" refers to developers who are using
+RIOT as a basis to run application software, without editing RIOT's source
+code. The term "developers" refers to contributors to the source code of RIOT.
 
-This document provides a reference of those use cases and design philosophies.
-The aim of the document is to record consensus in order to guide future
-development work. It aims to help developers make decisions, in particular
-providing concrete criteria to help resolve technical discussions where there
-are different points of view being expressed.
+# 1. Introduction
 
-# 1. Use Cases
+The RIOT developer community has grown from a state of a few developers in
+relatively close contact to a highly distributed worldwide organisation with
+members joining continuously. As a result, passing on underlying understanding
+and assumptions that drive design decisions via word-of-mouth is no longer
+feasible. These assumptions have therefore been recorded in this document for
+reference.
 
-RIOT is a general purpose IoT operating system for low-end devices. Below is a
-non-exhaustive list of use cases it addresses.
+This document contains a set of generalised, loose requirements for RIOT (in a
+voluntary open source context, gathering strict requirements is neither
+possible nor welcome). These "design goals", as they may be called, are given
+as a set of use cases followed by a set of design philosophies. These
+correspond loosely to user requirements and derived requirements respectively.
+There is no derivation of design philosophies from use cases presented, as this
+would be of little practical use; it should nevertheless be clear that all
+design philosophies serve the use cases.
 
-These are provided for illustration of the usage intention of RIOT in the real
-world, rather than drawing any inferences from them; it is up to the reader to
-draw their own inferences.
+# 2. Use Cases
 
-## 1.1. Environmental sensing
+RIOT is a general purpose IoT operating system for low-end devices. As a
+result, its use cases are varied: below is a non-exhaustive list of them,
+including the general requirements placed on the devices for each use case.
+
+## 2.1. Environmental sensing
 
 Networks of remote sensor nodes can be deployed to monitor the environment or
 assist with urban planning. These devices can be distributed on their own or
@@ -45,7 +67,7 @@ fit to infrastructure. The devices need to:
   - Potentially communicate with a smartphone
   - Potentially operate for years without power infrastructure or maintenance
 
-## 1.2. Rapid prototyping, research, and experimentation
+## 2.2. Rapid prototyping, research, and experimentation
 
 In experimentation and hacking situations, development needs to be accessible
 to makers, and allow a short development time and quick results. This means
@@ -61,7 +83,7 @@ that the software and hardware should:
   - Come with an easy-to-use toolkit that has a minimum of setup time
   - Let users easily port programs to different devices.
 
-## 1.3. Logistic tracking
+## 2.3. Logistic tracking
 
 Sensors that record environmental conditions can be used to manage goods in
 transit. These sensors need to:
@@ -70,7 +92,7 @@ transit. These sensors need to:
   - Last for several months without charging
   - Send data over long ranges to regional infrastructure.
 
-## 1.4. Physical system monitoring and control
+## 2.4. Physical system monitoring and control
 
 Distributed networks of sensors and actuators can be employed in certain
 control applications, such as automotive systems or Industry 4.0. The nodes
@@ -85,7 +107,7 @@ need to:
     implemented in mass market products such as automobiles
   - Potentially run control algorithms themselves.
 
-## 1.5. Edge systems for building management and automation
+## 2.5. Edge systems for building management and automation
 
 Various sensing and environmental control tasks can be done by edge nodes in
 buildings. The nodes need to be able to:
@@ -95,7 +117,7 @@ buildings. The nodes need to be able to:
   - Connect to the building management system, via wired or wireless connectors
   - Deliver data with reasonable timing and accuracy.
 
-## 1.6. Smart home devices
+## 2.6. Smart home devices
 
 Easy to use devices can let consumers monitor and control their home
 automatically. The devices need to be able to:
@@ -110,7 +132,7 @@ automatically. The devices need to be able to:
   - Connect to the building's power or provide their own power, depending on
     the product
   
-## 1.7. Daughterboards
+## 2.7. Daughterboards
 
 Plug-in boards can give devices immediate support for a protocol or standard,
 or let them outsource a task from the main processor. This requires the board
@@ -120,7 +142,7 @@ to:
   - Integrate and communicate reliably with the main processor
   - Include and support any relevant hardware
 
-## 1.8. Education
+## 2.8. Education
 
 The broad technical scope of RIOT makes it useful as a basis for education.
 This requires:
@@ -129,11 +151,17 @@ This requires:
   - Clear and easy to find documentation
   - A general availability of supported hardware and tools
 
-# 2 Design philosophies
+# 3. Design philosophies
 
-RIOT is friendly to users and lets them easily build and deploy stable IoT
-networks. Below are the design philosophies that are typically followed by
-developers to achieve this, including tradeoffs that are made.
+RIOT satisfies the requirements of all the use cases given above, and does so
+in its own unique way, a way that reflects the collective personality of the
+RIOT community. RIOT is the Friendly IoT Operating System: it is friendly to
+users, allowing them to easily build and deploy IoT solutions that are stable
+and trouble-free.
+
+Below are the design philosophies that are typically followed by developers to
+achieve this, including descriptions of tradeoffs between them and where the
+resolutions typically fall.
 
 ## Suitability for constrained devices
 
@@ -213,9 +241,9 @@ elements that RIOT supports should constantly be expanding.
 
 ## Modularity
 
-Being modular lets RIOT address many different memory, functionality, and
-performance demands. It also helps development efforts to scale in a widely
-distributed community.
+RIOT decomposes into small modules. Being modular lets RIOT address many
+different memory, functionality, and performance demands. It also helps
+development efforts to scale in a widely distributed community.
 
 Modules should be abstracted from one another as cleanly as possible. It should
 be easy for users to manage or exploit this modularity, for example through
@@ -299,14 +327,15 @@ This document follows previous work on documenting RIOT's design priorities [3]
 # References
 
 [1] [RFC7228 Terminology for Constrained-Node Networks. C. Bormann, M. Ersue,
-A. Keranen. May 2014.](https://tools.ietf.org/html/rfc7228) \
-[2] [“What Is Free Software?” _GNU Operating System_, 15 Dec. 2018,
-www.gnu.org/philosophy/free-sw.en.html.](https://www.gnu.org/philosophy/free-sw.en.html) \
-[3] [Emmanuel Baccelli, Oliver Hahm, Mesut Günes, Matthias Wählisch, Thomas C.
-Schmidt, "RIOT OS: Towards an OS for the Internet of Things," in Proceedings of
-the 32nd IEEE International Conference on Computer Communications (INFOCOM),
-Poster Session, April 2013.](https://www.riot-os.org/docs/riot-infocom2013-abstract.pdf) \
-[4] [E. Baccelli, et al. 2018. RIOT: An Open Source Operating System for Low-end
+A. Keranen. May 2014.](https://tools.ietf.org/html/rfc7228) \ [2] [“What Is
+Free Software?” _GNU Operating System_, 15 Dec. 2018,
+www.gnu.org/philosophy/free-sw.en.html.](https://www.gnu.org/philosophy/free-sw.en.html)
+\ [3] [Emmanuel Baccelli, Oliver Hahm, Mesut Günes, Matthias Wählisch, Thomas
+C.  Schmidt, "RIOT OS: Towards an OS for the Internet of Things," in
+Proceedings of the 32nd IEEE International Conference on Computer
+Communications (INFOCOM), Poster Session, April
+2013.](https://www.riot-os.org/docs/riot-infocom2013-abstract.pdf) \ [4] [E.
+Baccelli, et al. 2018. RIOT: An Open Source Operating System for Low-end
 Embedded Devices in the IoT. The IEEE Internet of Things Journal
 (2018).](http://ilab-pub.imp.fu-berlin.de/papers/bghkl-rosos-18-prepub.pdf)
 
