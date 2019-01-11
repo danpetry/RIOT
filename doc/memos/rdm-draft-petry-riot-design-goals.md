@@ -327,15 +327,15 @@ This document follows previous work on documenting RIOT's design priorities [3]
 # References
 
 [1] [RFC7228 Terminology for Constrained-Node Networks. C. Bormann, M. Ersue,
-A. Keranen. May 2014.](https://tools.ietf.org/html/rfc7228) \ [2] [“What Is
-Free Software?” _GNU Operating System_, 15 Dec. 2018,
-www.gnu.org/philosophy/free-sw.en.html.](https://www.gnu.org/philosophy/free-sw.en.html)
-\ [3] [Emmanuel Baccelli, Oliver Hahm, Mesut Günes, Matthias Wählisch, Thomas
+A. Keranen. May 2014.](https://tools.ietf.org/html/rfc7228) \
+[2] [“What Is Free Software?” _GNU Operating System_, 15 Dec. 2018,
+www.gnu.org/philosophy/free-sw.en.html.](https://www.gnu.org/philosophy/free-sw.en.html) \
+[3] [Emmanuel Baccelli, Oliver Hahm, Mesut Günes, Matthias Wählisch, Thomas
 C.  Schmidt, "RIOT OS: Towards an OS for the Internet of Things," in
 Proceedings of the 32nd IEEE International Conference on Computer
 Communications (INFOCOM), Poster Session, April
-2013.](https://www.riot-os.org/docs/riot-infocom2013-abstract.pdf) \ [4] [E.
-Baccelli, et al. 2018. RIOT: An Open Source Operating System for Low-end
+2013.](https://www.riot-os.org/docs/riot-infocom2013-abstract.pdf) \
+[4] [E. Baccelli, et al. 2018. RIOT: An Open Source Operating System for Low-end
 Embedded Devices in the IoT. The IEEE Internet of Things Journal
 (2018).](http://ilab-pub.imp.fu-berlin.de/papers/bghkl-rosos-18-prepub.pdf)
 
