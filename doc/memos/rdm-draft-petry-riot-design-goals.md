@@ -7,12 +7,13 @@
 ## Abstract
 
 Although several papers have been published that give a broad technical
-overview of RIOT, there are as yet no documents focused specifically on guiding
-technical decision making within the developer community. This document aims to
-reflect a consensus on the reasoning behind RIOT design and implementation, and
-so inform efforts for the future. It has been reviewed widely by both
-contributors and maintainers to ensure it reflects collective understanding;
-differences in understanding that were exposed in the process were resolved.
+overview of RIOT, there are as yet no overview documents focused specifically
+on guiding technical decision making within the developer community. This
+document aims to reflect a consensus on the reasoning behind RIOT design and
+implementation, and so inform efforts for the future. It has been reviewed
+widely by both contributors and maintainers to ensure it reflects collective
+understanding; differences in understanding that were exposed in the process
+were resolved.
 
 The result is a record of concrete criteria to help new contributors get up to
 speed more quickly, and to help both new and experienced developers to resolve
