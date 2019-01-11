@@ -45,8 +45,8 @@ possible nor welcome). These "design goals", as they may be called, are given
 as a set of use cases followed by a set of design philosophies. These
 correspond loosely to user requirements and derived requirements respectively.
 There is no derivation of design philosophies from use cases presented, as this
-would be of little practical use to the reader; it should nevertheless be clear
-that all design philosophies serve the use cases.
+would be of little practical use to the developer; it should nevertheless be
+clear that all design philosophies serve the use cases.
 
 # 2. Use Cases
 
