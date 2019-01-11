@@ -98,7 +98,7 @@ Distributed networks of sensors and actuators can be employed in certain
 control applications, such as automotive systems or Industry 4.0. The nodes
 need to:
 
-  - Sense pressure, temperature, torque, flow, rotary position, and velocity,
+  - Sense pressure, temperature, torque, flow, rotary position and velocity,
     etc
   - Control motors, solenoids, valves, heating elements, etc
   - Collect and send data with a low latency, or at least a well synchronized
