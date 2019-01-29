@@ -6,18 +6,10 @@
 
 ## Abstract
 
-Although several papers have been published that give a broad technical
-overview of RIOT, there are as yet no overview documents focused specifically
-on guiding technical decision making within the developer community. This
-document aims to reflect a consensus on the reasoning behind RIOT design and
-implementation, and so inform efforts for the future. It has been reviewed
-widely by both contributors and maintainers to ensure it reflects collective
-understanding; differences in understanding that were exposed in the process
-were resolved.
-
-The result is a record of concrete criteria to help new contributors get up to
-speed more quickly, and to help both new and experienced developers to resolve
-technical debates.
+This document presents key design aspects of the RIOT operating system: its
+application contexts and design rationales.  It aims to reflect a consensus on
+the reasoning behind RIOT design, in order to help new contributors get up to
+speed more quickly and provide common ground for technical debates.
 
 ## Status
 
@@ -27,32 +19,24 @@ license.
 ## Terminology
 
 Throughout this document, the term "users" refers to developers who are using
-RIOT as a basis to run application software, without editing RIOT's source
-code. The term "developers" refers to contributors to the source code of RIOT.
+RIOT as a basis to implement application software, without editing RIOT's
+source code. The term "developers" refers to contributors to the source code of
+RIOT.
 
 # 1. Introduction
 
-The RIOT developer community has grown from a state of a few developers in
-relatively close contact to a highly distributed worldwide organisation with
-members joining continuously. As a result, passing on underlying understanding
-and assumptions that drive design decisions via word-of-mouth is no longer
-feasible. These assumptions have therefore been recorded in this document for
-reference.
-
-This document contains a set of generalised, loose requirements for RIOT (in a
+This document lists a set of generalised, loose requirements for RIOT (in a
 voluntary open source context, gathering strict requirements is neither
 possible nor welcome). These "design goals", as they may be called, are given
 as a set of use cases followed by a set of design philosophies. These
 correspond loosely to user requirements and derived requirements respectively.
-There is no derivation of design philosophies from use cases presented, as this
-would be of little practical use to the developer; it should nevertheless be
-clear that all design philosophies serve the use cases.
 
-# 2. Use Cases
+# 2. Use cases
 
 RIOT is a general purpose IoT operating system for low-end devices. As a
-result, its use cases are varied: below is a non-exhaustive list of them,
-including the general requirements placed on the devices for each use case.
+result, its use cases are varied: below is a comprehensive, but non-exclusive
+list of them, including the general requirements placed on the devices for each
+use case.
 
 ## 2.1. Environmental sensing
 
@@ -70,13 +54,14 @@ fit to infrastructure. The devices need to:
 
 ## 2.2. Rapid prototyping, research, and experimentation
 
-In experimentation and hacking situations, development needs to be accessible
-to makers, and allow a short development time and quick results. This means
+In experimentation and hacking situations, development needs to be easily
+accessible, and allow a short development time and quick results. This means
 that the software and hardware should:
 
   - Let users prototype easily
   - Let users easily run and load simple applications
   - Let users easily set up networking
+  - Let users easily port third party libraries
   - Be highly customizable and updateable
   - Support a range of plug-in sensors and actuators
   - Be usable with or without different features, including networking
@@ -99,8 +84,9 @@ Distributed networks of sensors and actuators can be employed in certain
 control applications, such as automotive systems or Industry 4.0. The nodes
 need to:
 
-  - Sense pressure, temperature, torque, flow, rotary position and velocity,
-    etc
+  - Sense various specific properties such as pressure, torque, velocity, or
+    flow
+  - Control various specific actuators such as motors, solenoids, or valves
   - Control motors, solenoids, valves, heating elements, etc
   - Collect and send data with a low latency, or at least a well synchronized
     timestamp
@@ -116,7 +102,7 @@ buildings. The nodes need to be able to:
   - Sense temperature, light, humidity, pressure, current, etc
   - Control temperature, light, ventilation, etc
   - Connect to the building management system, via wired or wireless connectors
-  - Deliver data with reasonable timing and accuracy.
+  - Deliver data with controllable timing and accuracy.
 
 ## 2.6. Smart home devices
 
@@ -128,7 +114,7 @@ automatically. The devices need to be able to:
     etc
   - Be usable but secure for people with no technical knowledge 
   - Connect to a commercial home gateway 
-  - Communicate over common home IoT protocols such as ZigBee, Bluetooth, WiFi,
+  - Communicate over common home IoT protocols such as ZigBee, Bluetooth, Wi-Fi,
     etc
   - Connect to the building's power or provide their own power, depending on
     the product
@@ -185,8 +171,8 @@ modes and functions.
 Most of RIOT's targeted use cases are well addressed by devices in class 1 of
 the taxonomy presented in [1]. If small price differences are important or the
 energy budget is particularly tight, the available memory might be near the
-bottom of this class. Over-the-air updating currently reduces the available ROM
-by over half.
+bottom of this class. Over-the-air updating facilities may also reduce the
+available ROM by over half, depending on the architecture.
 
 RIOT should provide out-of-the-box support for devices with ~10 KiB of
 available RAM and ~100 KiB of ROM. It should be just as possible to address
@@ -196,27 +182,27 @@ be given the choice of what they want to spend their memory on.
 
 #### Constrained networking
 
-RIOT should deliver best-in-class communication bandwidth and robustness.
+RIOT should deliver best-in-class communication performance and robustness.
 
 Network stacks should remain up-to-date as relevant standards emerge; they
-should be adequately extensible to support this. Users should be able to adapt
-them and choose between different stacks; they should be able to get the best
-performance and most relevant functionality out of whatever resources they have
-available.
+should be adequately extensible to support this. Users should be able to
+configure them according to technological options, and choose between
+high-quality implementations which address performance tradeoffs differently.
+They should be able to get the best performance and most relevant functionality
+out of whatever resources they have available.
 
 ## Short learning curve
 
-RIOT's use cases involve makers, researchers in non-computer science fields,
-broadly skilled engineers making proofs-of-concept in IoT startups, and
-experienced embedded C developers.
+RIOT's use cases involve makers, researchers in (non-)computer science fields,
+broadly skilled engineers making vertically integrated IoT proofs-of-concept,
+and experienced embedded C developers.
 
 All of these users should be comfortable using RIOT and its tooling, whatever
 their platform or hardware. No user of any skill level should be tripped up
 because they haven't configured something that they wouldn't reasonably be
 expected to know about. Whatever the user's background, RIOT should demand as
 little RIOT-specific learning as possible. It should, therefore, adhere to
-common systems and networking standards such as C99, POSIX, libc, UDP, CoAP,
-IPv6, and so on wherever it makes sense.
+common systems and networking standards.
 
 ## Vendor and technology independence
 
@@ -231,14 +217,14 @@ should be kept to themselves.
 
 ## Versatility
 
-The use cases for IoT systems are monifold, and so are their requirements.
+The use cases for IoT systems are manifold, and so are their requirements.
 Therefore, design decisions in RIOT should not prefer one technology or one
 protocol over another. 
 
 Default configurations should support as many users and use cases as possible.
-RIOT should provide everything users need, either in its code base or in the
-external packages it supports. The list of hardware, algorithms and other
-elements that RIOT supports should constantly be expanding.
+RIOT should aim at providing everything users need, either in its code base or
+in the external packages it supports. The list of hardware, algorithms and
+other elements that RIOT supports should constantly be expanding.
 
 ## Modularity
 
@@ -256,13 +242,13 @@ modules, but they shouldn't be unnecessarily fine-grained either.
 ## Cross-hardware portability
 
 Users might want to write a program for one piece of hardware, and later run it
-on another. RIOT should let user code be completely portable, so long as it's
-valid with the hardware.
+on another. RIOT should let user code be completely portable, so long as it
+remains valid with the hardware.
 
 The hardware abstraction layer should be stable, well defined and consistent.
 Above the HAL, the only thing that modules should know about hardware is
-whether a required feature is there or not. If it isn't, the module should
-adapt accordingly, or not compile.
+whether its build dependencies are provided or not. If they aren't, the module
+should adapt accordingly, or not compile.
 
 ## Real-time capabilities
 
@@ -279,14 +265,14 @@ of any application.
 
 ## Interoperability
 
-RIOT nodes need to communicate reliably with non-RIOT nodes. The protocols need
-to be familiar to them and behave in the way they expect.
+RIOT nodes need to communicate reliably with non-RIOT nodes by carefully
+implementing open standards or identical technological specifications.
 
 RIOT should support open network protocol standards once they have reached a
-certain level of validity and popularity. It should be configurable so that
-users can choose which (optional) areas of specifications they want to include.
-Whatever the configuration, nodes should handle all possible traffic in a
-compliant manner.
+certain level of maturity and popularity. It should be configurable so that
+users can choose which (optional) features of specifications they want to
+include.  Whatever the configuration, nodes should handle all possible traffic
+in a compliant manner.
 
 ## Stability
 
@@ -300,8 +286,8 @@ possible. Error handling should guarantee stability with minimal memory usage.
 
 ## Unified APIs
 
-Users don't want to be confused by semantic differences between APIs. RIOT
-provides a similar "look and feel" across all our APIs.
+RIOT wants to ease development for users by providing a similar "look and feel"
+across all our APIs.
 
 RIOT's interfaces should only differ in the ways that their modules differ.
 Where possible, layers should exist that sit on top of a certain class of
@@ -316,9 +302,10 @@ reputation and the reputation of the IoT.
 It should be hard against all the threats a node is likely to experience,
 depending on the situation, including those from computers with many times
 their processing power. Security should be as easy to use as possible while
-still strong. Security flaws should be patched as quickly as possible.
-Convenient updating mechanisms should allow users to apply patches to their
-nodes, wherever they are.
+still strong. Security flaws should be patched as quickly as possible by
+servicing a security alert channel with high priority. Convenient updating
+mechanisms should allow users to apply patches to their nodes, wherever they
+are.
 
 # Acknowledgements
 
@@ -327,18 +314,18 @@ This document follows previous work on documenting RIOT's design priorities [3]
 
 # References
 
-[1] [RFC7228 Terminology for Constrained-Node Networks. C. Bormann, M. Ersue,
-A. Keranen. May 2014.](https://tools.ietf.org/html/rfc7228) \
+[1] [C. Bormann, M. Ersue, A. Keranen: "Terminology for Constrained-Node
+Networks.", RFC, No. 7228, RFC-Editor, May 2014.](https://tools.ietf.org/html/rfc7228) \
 [2] [“What Is Free Software?” _GNU Operating System_, 15 Dec. 2018,
 www.gnu.org/philosophy/free-sw.en.html.](https://www.gnu.org/philosophy/free-sw.en.html) \
-[3] [Emmanuel Baccelli, Oliver Hahm, Mesut Günes, Matthias Wählisch, Thomas
-C.  Schmidt, "RIOT OS: Towards an OS for the Internet of Things," in
-Proceedings of the 32nd IEEE International Conference on Computer
-Communications (INFOCOM), Poster Session, April
-2013.](https://www.riot-os.org/docs/riot-infocom2013-abstract.pdf) \
-[4] [E. Baccelli, et al. 2018. RIOT: An Open Source Operating System for Low-end
-Embedded Devices in the IoT. The IEEE Internet of Things Journal
-(2018).](http://ilab-pub.imp.fu-berlin.de/papers/bghkl-rosos-18-prepub.pdf)
+[3] [Emmanuel Baccelli, Oliver Hahm, Mesut Günes, Matthias Wählisch, Thomas C.
+Schmidt, "RIOT OS: Towards an OS for the Internet of Things," in Proceedings of
+the 32nd IEEE International Conference on Computer Communications (INFOCOM),
+Poster, p. 79–80, IEEE Press, April 2013.](https://www.riot-os.org/docs/riot-infocom2013-abstract.pdf) \
+[4] [E. Baccelli, C. Gündogan, O. Hahm, P. Kietzmann, M. Lenders, H. Petersen,
+K. Schleiser, T.C. Schmidt, M. Wählisch: "RIOT: an Open Source Operating System
+for Low-end Embedded Devices in the IoT", IEEE Internet of Things Journal, Vol.
+5, No. 6, p. 4428- 4440, IEEE, December 2018.](http://ilab-pub.imp.fu-berlin.de/papers/bghkl-rosos-18-prepub.pdf)
 
 # Revisions
 
