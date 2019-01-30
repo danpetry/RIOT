@@ -87,7 +87,6 @@ need to:
   - Sense various specific properties such as pressure, torque, velocity, or
     flow
   - Control various specific actuators such as motors, solenoids, or valves
-  - Control motors, solenoids, valves, heating elements, etc
   - Collect and send data with a low latency, or at least a well synchronized
     timestamp
   - Potentially have a very low unit cost, particularly when the networks are
@@ -177,8 +176,9 @@ available ROM by over half, depending on the architecture.
 RIOT should provide out-of-the-box support for devices with ~10 KiB of
 available RAM and ~100 KiB of ROM. It should be just as possible to address
 real use cases involving even smaller devices, starting at ~2 KiB of RAM and
-~10 KiB of ROM, with manual optimizations and specialised modules. Users should
-be given the choice of what they want to spend their memory on.
+~10 KiB of ROM, via manual configuration, and via modules which prioritize
+memory efficiency in their design without of course departing from any
+specifications that are used to describe the module.
 
 #### Constrained networking
 
@@ -254,14 +254,12 @@ should adapt accordingly, or not compile.
 
 Different real-time guarantees are required for different use cases. Low
 frequency sensing needs only soft real-time support and can handle less timing
-accuracy so long as the timers support long timescales. High-frequency sensing
-and control applications need hard real-time guarantees and sub-millisecond
-timing accuracy.
+accuracy so long as the timers support long timescales. Sensing and control
+applications which do not require hard real-time guarantees are also supported.
 
-RIOT should deliver soft real-time performance by default, to cover the widest
-range of use cases. Programs with hard deadlines should be achievable with more
-expertise. It should provide timers which can competently handle the timescales
-of any application.
+RIOT should deliver soft real-time guarantees which address the use cases given
+in section 2. It should provide timers which can competently handle the
+timescales of any application.
 
 ## Interoperability
 
