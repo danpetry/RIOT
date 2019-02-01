@@ -44,13 +44,13 @@ Networks of remote sensor nodes can be deployed to monitor the environment or
 assist with urban planning. These devices can be distributed on their own or
 fit to infrastructure. The devices need to:
 
-  - Sense air composition, temperature, light quality, water quality, etc
-  - Support low-power wireless networking protocols
-  - Interoperate with non-RIOT nodes or gateways
-  - Collect data on timescales of the order of hours or longer
-  - Potentially be able to send data over long ranges
-  - Potentially communicate with a smartphone
-  - Potentially operate for years without power infrastructure or maintenance
+  - Sense air composition, temperature, light quality, water quality, etc.
+  - Support low-power wireless networking protocols.
+  - Interoperate with non-RIOT nodes or gateways.
+  - Collect data on timescales of the order of hours or longer.
+  - Potentially be able to send data over long ranges.
+  - Potentially communicate with a smartphone.
+  - Potentially operate for years without power infrastructure or maintenance.
 
 ## 2.2. Rapid prototyping, research, and experimentation
 
@@ -58,15 +58,15 @@ In experimentation and hacking situations, development needs to be easily
 accessible, and allow a short development time and quick results. This means
 that the software and hardware should:
 
-  - Let users prototype easily
-  - Let users easily run and load simple applications
-  - Let users easily set up networking
-  - Let users easily port third party libraries
-  - Be highly customizable and updateable
-  - Support a range of plug-in sensors and actuators
-  - Be usable with or without different features, including networking
-  - Use commonly available, easy to use development boards
-  - Come with an easy-to-use toolkit that has a minimum of setup time
+  - Let users prototype easily.
+  - Let users easily run and load simple applications.
+  - Let users easily set up networking.
+  - Let users easily port third party libraries.
+  - Be highly customizable and updateable.
+  - Support a range of plug-in sensors and actuators.
+  - Be usable with or without different features, including networking.
+  - Use commonly available, easy to use development boards.
+  - Come with an easy-to-use toolkit that has a minimum of setup time.
   - Let users easily port programs to different devices.
 
 ## 2.3. Logistic tracking
@@ -74,8 +74,8 @@ that the software and hardware should:
 Sensors that record environmental conditions can be used to manage goods in
 transit. These sensors need to:
 
-  - Sense position and condition of goods
-  - Last for several months without charging
+  - Sense position and condition of goods.
+  - Last for several months without charging.
   - Send data over long ranges to regional infrastructure.
 
 ## 2.4. Physical system monitoring and control
@@ -85,12 +85,12 @@ control applications, such as automotive systems or Industry 4.0. The nodes
 need to:
 
   - Sense various specific properties such as pressure, torque, velocity, or
-    flow
-  - Control various specific actuators such as motors, solenoids, or valves
+    flow.
+  - Control various specific actuators such as motors, solenoids, or valves.
   - Collect and send data with a low latency, or at least a well synchronized
-    timestamp
+    timestamp.
   - Potentially have a very low unit cost, particularly when the networks are
-    implemented in mass market products such as automobiles
+    implemented in mass market products such as automobiles.
   - Potentially run control algorithms themselves.
 
 ## 2.5. Edge systems for building management and automation
@@ -98,9 +98,9 @@ need to:
 Various sensing and environmental control tasks can be done by edge nodes in
 buildings. The nodes need to be able to:
 
-  - Sense temperature, light, humidity, pressure, current, etc
-  - Control temperature, light, ventilation, etc
-  - Connect to the building management system, via wired or wireless connectors
+  - Sense temperature, light, humidity, pressure, current, etc.
+  - Control temperature, light, ventilation, etc.
+  - Connect to the building management system, via wired or wireless connectors.
   - Deliver data with controllable timing and accuracy.
 
 ## 2.6. Smart home devices
@@ -108,42 +108,42 @@ buildings. The nodes need to be able to:
 Easy to use devices can let consumers monitor and control their home
 automatically. The devices need to be able to:
 
-  - Sense temperature, light, humidity, smoke, etc
+  - Sense temperature, light, humidity, smoke, etc.
   - Integrate with home appliances to control temperature, light, power usage,
-    etc
-  - Be usable but secure for people with no technical knowledge 
-  - Connect to a commercial home gateway 
+    etc.
+  - Be usable but secure for people with no technical knowledge.
+  - Connect to a commercial home gateway.
   - Communicate over common home IoT protocols such as ZigBee, Bluetooth, Wi-Fi,
-    etc
+    etc.
   - Connect to the building's power or provide their own power, depending on
-    the product
-  
+    the product.
+
 ## 2.7. Daughterboards
 
 Plug-in boards can give devices immediate support for a protocol or standard,
 or let them outsource a task from the main processor. This requires the board
 to:
 
-  - Perform its promised task reliably
-  - Integrate and communicate reliably with the main processor
-  - Include and support any relevant hardware
+  - Perform its promised task reliably.
+  - Integrate and communicate reliably with the main processor.
+  - Include and support any relevant hardware.
 
 ## 2.8. Education
 
 The broad technical scope of RIOT makes it useful as a basis for education.
 This requires:
 
-  - The presence of didactic materials related to RIOT
-  - Clear and easy to find documentation
-  - A general availability of supported hardware and tools
+  - The presence of didactic materials related to RIOT.
+  - Clear and easy to find documentation.
+  - A general availability of supported hardware and tools.
 
 # 3. Design philosophies
 
-RIOT satisfies the requirements of all the use cases given above, and does so
-in its own unique way, a way that reflects the collective personality of the
-RIOT community. RIOT is the Friendly IoT Operating System: it is friendly to
-users, allowing them to easily build and deploy IoT solutions that are stable
-and trouble-free.
+RIOT satisfies the requirements of all the use cases given above, in a way
+based on rough consensus within the RIOT community, reflecting the collective
+personalities of the RIOT contributors and users. RIOT is the Friendly IoT
+Operating System: it is friendly to users, allowing them to easily build and
+deploy IoT solutions that are stable and trouble-free.
 
 Below are the design philosophies that are typically followed by developers to
 achieve this, including descriptions of tradeoffs between them and where the
@@ -170,8 +170,7 @@ modes and functions.
 Most of RIOT's targeted use cases are well addressed by devices in class 1 of
 the taxonomy presented in [1]. If small price differences are important or the
 energy budget is particularly tight, the available memory might be near the
-bottom of this class. Over-the-air updating facilities may also reduce the
-available ROM by over half, depending on the architecture.
+bottom of this class.
 
 RIOT should provide out-of-the-box support for devices with ~10 KiB of
 available RAM and ~100 KiB of ROM. It should be just as possible to address
@@ -186,10 +185,10 @@ RIOT should deliver best-in-class communication performance and robustness.
 
 Network stacks should remain up-to-date as relevant standards emerge; they
 should be adequately extensible to support this. Users should be able to
-configure them according to technological options, and choose between
-high-quality implementations which address performance tradeoffs differently.
-They should be able to get the best performance and most relevant functionality
-out of whatever resources they have available.
+configure them according to their needs, and choose between high-quality
+implementations which address performance tradeoffs differently.  They should
+be able to get the best performance and most relevant functionality out of
+whatever resources they have available.
 
 ## Short learning curve
 
