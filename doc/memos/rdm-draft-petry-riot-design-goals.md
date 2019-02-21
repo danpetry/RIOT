@@ -82,7 +82,7 @@ accessible, and allow a short development time and quick results. This means
 that the software and hardware should:
 
   - Let users prototype easily.
-  - Let users easily run and load simple applications.
+  - Let users easily load and run simple applications.
   - Let users easily set up networking.
   - Let users easily port third party libraries.
   - Be highly customizable and updateable.
@@ -224,17 +224,6 @@ expected to know about. Whatever the user's background, RIOT should demand as
 little RIOT-specific learning as possible. It should, therefore, adhere to
 common systems and networking standards.
 
-## Vendor and technology independence
-
-Vendors and technologies are supported with zero bias. This means users can
-choose what's best for them, without being led by RIOT. Moreover, RIOT is Free
-Software [2], which means users are free to use it as they wish without
-lock-in.
-
-The choice of the hardware and standards RIOT supports should depend only on
-how well they support the use cases. Any allegiance that modules may have
-should be kept to themselves.
-
 ## Versatility
 
 The use cases for IoT systems are manifold, and so are their requirements.
@@ -245,6 +234,17 @@ Default configurations should support as many users and use cases as possible.
 RIOT should aim at providing everything users need, either in its code base or
 in the external packages it supports. The list of hardware, algorithms and
 other elements that RIOT supports should constantly be expanding.
+
+## Vendor and technology independence
+
+Vendors and technologies are supported with zero bias. This means users can
+choose what's best for them, without being led by RIOT. Moreover, RIOT is Free
+Software [2], which means users are free to use it as they wish without
+lock-in.
+
+The choice of the hardware and standards RIOT supports should depend only on
+how well they support the use cases. Any allegiance that modules may have
+should be kept to themselves.
 
 ## Modularity
 
@@ -284,13 +284,12 @@ timescales of any application.
 ## Interoperability
 
 RIOT nodes need to communicate reliably with non-RIOT nodes by carefully
-implementing open standards or identical technological specifications.
+implementing open protocol standards or identical technological specifications.
 
-RIOT should support open network protocol standards once they have reached a
-certain level of maturity and popularity. It should be configurable so that
-users can choose which (optional) features of specifications they want to
-include.  Whatever the configuration, nodes should handle all possible traffic
-in a compliant manner.
+RIOT should support standards once they have reached a certain level of
+maturity and popularity. It should be configurable so that users can choose
+which (optional) features of specifications they want to include.  Whatever the
+configuration, nodes should handle all possible traffic in a compliant manner.
 
 ## Stability
 
