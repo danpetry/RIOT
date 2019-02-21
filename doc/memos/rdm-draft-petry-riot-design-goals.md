@@ -25,18 +25,41 @@ RIOT.
 
 # 1. Introduction
 
-This document lists a set of generalised, loose requirements for RIOT (in a
-voluntary open source context, gathering strict requirements is neither
-possible nor welcome). These "design goals", as they may be called, are given
-as a set of use cases followed by a set of design philosophies. These
-correspond loosely to user requirements and derived requirements respectively.
+The RIOT developer community has grown from a state of a few developers in
+relatively close contact to a highly distributed worldwide organisation with
+members joining continuously. As a result, passing on underlying understanding
+and assumptions that drive design decisions via word-of-mouth is no longer
+feasible. 
+
+This document represents the consensus on a set of generalised, loose
+requirements for RIOT (in a voluntary open source context, gathering strict
+requirements is neither possible nor welcome).
+
+The first section discusses some of the concrete [use cases](#2-use-cases)
+which RIOT is driven by, to give a broad awareness to the developer where and
+how their features will be used. Based on this bigger picture, the [design
+philosophies](#3-design-philosophies) in the second section provide specific
+guidance for design. These include a focus on constrained devices, a short
+learning curve, and the versatility to support a huge variety of devices and
+functionality.
 
 # 2. Use cases
 
-RIOT is a general purpose IoT operating system for low-end devices. As a
-result, its use cases are varied: below is a comprehensive, but non-exclusive
-list of them, including the general requirements placed on the devices for each
-use case.
+RIOT is a general purpose IoT operating system for low-end devices, such as
+those described in [1]. As such, RIOT targets separate use cases from embedded
+Linux. Below is a comprehensive, but non-exclusive list of RIOT use cases,
+including the general requirements placed on the devices for each one.
+
+These requirements demonstrate the need for RIOT to support an extremely large
+number of hardware configurations: various microcontrollers bundled with
+various sensors and actuators and various network transcievers (radio and
+wired). On these, a large variety of software configurations is run: various
+link layer technologies and network protocol stacks, serving user application
+logic requiring various levels of complexity, reliability, or real-time
+support.
+
+Readers who are familiar with the field may skip directly to [section
+3](#3-design-philosophies).
 
 ## 2.1. Environmental sensing
 
@@ -139,15 +162,9 @@ This requires:
 
 # 3. Design philosophies
 
-RIOT satisfies the requirements of all the use cases given above, in a way
-based on rough consensus within the RIOT community, reflecting the collective
-personalities of the RIOT contributors and users. RIOT is the Friendly IoT
-Operating System: it is friendly to users, allowing them to easily build and
-deploy IoT solutions that are stable and trouble-free.
-
 Below are the design philosophies that are typically followed by developers to
-achieve this, including descriptions of tradeoffs between them and where the
-resolutions typically fall.
+cater for the above use cases. The sections below include descriptions of
+tradeoffs between the philosophies, and where the resolutions typically fall.
 
 ## Suitability for constrained devices
 
@@ -167,28 +184,32 @@ modes and functions.
 
 #### Small memory footprint
 
-Most of RIOT's targeted use cases are well addressed by devices in class 1 of
-the taxonomy presented in [1]. If small price differences are important or the
-energy budget is particularly tight, the available memory might be near the
-bottom of this class.
+Apart from being optimized for low memory usage, RIOT tries very hard to be as
+modular as possible so unused features don't use up precious RAM or flash.
+Almost all features are provided as optional modules that have to be enabled
+explicitly at compile time.  A minimal RIOT configuration starts at around
+<2KiB flash and <1.5KiB RAM (including stack space for one thread and ISRs).
 
-RIOT should provide out-of-the-box support for devices with ~10 KiB of
-available RAM and ~100 KiB of ROM. It should be just as possible to address
-real use cases involving even smaller devices, starting at ~2 KiB of RAM and
-~10 KiB of ROM, via manual configuration, and via modules which prioritize
-memory efficiency in their design without of course departing from any
-specifications that are used to describe the module.
+Starting from there, the memory usage depends on the enabled features:
+
+- Non-networked control loop / sensing applications can fit on very small MCUs
+(eg., an Atmega328P with 2KiB RAM)
+- 6lowPAN networking currently starts at ~40KiB ROM and ~10KiB RAM
+- A 6lowpan enabled CoAP server requires ~60KiB ROM and ~15KiB RAM
+- a file system adds ~15 KiB ROM and ~2 KiB RAM
 
 #### Constrained networking
 
-RIOT should deliver best-in-class communication performance and robustness.
+RIOT should deliver best-in-class communication robustness and
+interoperability. To this end, we use open networking standards over custom,
+more optimized protocols.
 
-Network stacks should remain up-to-date as relevant standards emerge; they
-should be adequately extensible to support this. Users should be able to
-configure them according to their needs, and choose between high-quality
-implementations which address performance tradeoffs differently.  They should
-be able to get the best performance and most relevant functionality out of
-whatever resources they have available.
+The interfaces to network stacks (netdev, sock) are designed to be agnostic to
+the stack itself. The stacks themselves can therefore be interchanged freely.
+The design of the default networking stack (GNRC) prioritizes modularity and
+extensibility over memory usage. This ensures that users can adapt the stack to
+their use cases, and developers can easily extend it as further standards and
+amendments are published.
 
 ## Short learning curve
 
@@ -308,6 +329,9 @@ are.
 
 This document follows previous work on documenting RIOT's design priorities [3]
 [4].
+
+Thanks to E. Baccelli, K. Bannister, M. Lenders, K. Schleiser, T. Schmidt, M.
+Waehlisch, and all others who have contributed to the review of this document.
 
 # References
 
