@@ -59,6 +59,8 @@
 # @author       Hauke Peteresen <hauke.petersen@fu-berlin.de>
 # @author       Joakim Nohlgård <joakim.nohlgard@eistec.se>
 
+set -x
+
 # Default GDB port, set to 0 to disable, required != 0 for debug and debug-server targets
 : ${GDB_PORT:=3333}
 # Default telnet port, set to 0 to disable
