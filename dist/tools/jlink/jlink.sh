@@ -12,7 +12,7 @@
 # JLINK_SERIAL:     Device serial used by JLink
 # JLINK_IF:         Interface used by JLink, default: "SWD"
 # JLINK_SPEED:      Interface clock speed to use (in kHz), default "2000"
-# FLASH_ADDR:       Starting address of the target's flash memory, default: "0"
+# FLASH_ADDR:       Flash address where the first byte of the binary will be programmed, default: "0"
 # JLINK_PRE_FLASH:  Additional JLink commands to execute before flashing
 # JLINK_POST_FLASH: Additional JLink commands to execute after flashing
 #
@@ -85,7 +85,7 @@ test_config() {
         exit 1
     fi
     if [ -z "${FLASH_ADDR}" ]; then
-        echo "Error: No flash address defined in FLASH_ADDR env var"
+        echo "Error: No flashing address defined in FLASH_ADDR env var"
         exit 1
     fi
 }
