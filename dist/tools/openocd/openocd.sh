@@ -197,9 +197,9 @@ _flash_list() {
             -c 'shutdown'" 2>&1 | _split_banks
 }
 
-# Print flash address for 'bank_num' num defaults to 1
-# _flash_address  [bank_num:1]
-_flash_address() {
+# Print flash start address for bank number 'bank_num', which defaults to 1
+# _flash_start_address  [bank_num:1]
+_flash_start_address() {
     bank_num=${1:-1}
 
     # extract 'base' value and print as hexadecimal
@@ -227,7 +227,7 @@ do_flash() {
     # This allows flashing normal binary files without env configuration
     if _is_binfile "${IMAGE_FILE}" "${IMAGE_TYPE}"; then
         # hardwritten to use the first bank
-        FLASH_ADDR=$(_flash_address 1)
+        FLASH_ADDR=$(_flash_start_address 1)
         echo "Binfile detected, adding ROM base address: ${FLASH_ADDR}"
         IMAGE_TYPE=bin
         IMAGE_OFFSET=$(printf "0x%08x\n" "$((${IMAGE_OFFSET} + ${FLASH_ADDR}))")
