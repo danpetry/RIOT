@@ -12,7 +12,7 @@
 # JLINK_SERIAL:     Device serial used by JLink
 # JLINK_IF:         Interface used by JLink, default: "SWD"
 # JLINK_SPEED:      Interface clock speed to use (in kHz), default "2000"
-# FLASH_ADDR:       Starting address of the target's flash memory, default: "0"
+# IMAGE_OFFSET:     Offset from start of flash where the first byte of the binary will be programmed, default: "0"
 # JLINK_PRE_FLASH:  Additional JLink commands to execute before flashing
 # JLINK_POST_FLASH: Additional JLink commands to execute after flashing
 #
@@ -51,6 +51,15 @@
 #
 # @author       Hauke Peteresen <hauke.petersen@fu-berlin.de>
 
+: ${FLASH_BASE_ADDR:=0}
+# This is an optional offset to the base address that can be used to flash an
+# image in a different location than it is linked at. This feature can be useful
+# when flashing images for firmware swapping/remapping boot loaders.
+# Default offset is 0, meaning the image will be flashed at the address that it
+# was linked at.
+: ${IMAGE_OFFSET:=0}
+
+
 # default GDB port
 _GDB_PORT=3333
 # default telnet port
@@ -82,10 +91,6 @@ test_config() {
     fi
     if [ -z "${JLINK_DEVICE}" ]; then
         echo "Error: No target device defined in JLINK_DEVICE env var"
-        exit 1
-    fi
-    if [ -z "${FLASH_ADDR}" ]; then
-        echo "Error: No flash address defined in FLASH_ADDR env var"
         exit 1
     fi
 }
@@ -157,6 +162,7 @@ do_flash() {
     if [ ! -z "${JLINK_PRE_FLASH}" ]; then
         printf "${JLINK_PRE_FLASH}\n" >> ${BINDIR}/burn.seg
     fi
+    FLASH_ADDR=$(printf "0x%08x\n" "$((${FLASH_BASE_ADDR} + ${IMAGE_OFFSET}))")
     echo "loadbin ${BINFILE} ${FLASH_ADDR}" >> ${BINDIR}/burn.seg
     if [ ! -z "${JLINK_POST_FLASH}" ]; then
         printf "${JLINK_POST_FLASH}\n" >> ${BINDIR}/burn.seg
@@ -258,7 +264,7 @@ shift # pop $1 from $@
 case "${ACTION}" in
   flash)
     echo "### Flashing Target ###"
-    echo "### Flashing at address ${FLASH_ADDR} ###"
+    echo "### Flashing at offset ${IMAGE_OFFSET} from base address ${FLASH_BASE_ADDR}###"
     do_flash "$@"
     ;;
   debug)
