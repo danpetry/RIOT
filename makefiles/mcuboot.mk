@@ -42,7 +42,7 @@ $(MCUBOOT_BIN):
 .PHONY: mcuboot-flash-bootloader mcuboot-flash
 
 mcuboot-flash-bootloader: FLASHFILE = $(MCUBOOT_BIN)
-mcuboot-flash-bootloader: export FLASH_ADDR = 0x0
+mcuboot-flash-bootloader: export FLASH_ADDR = 0x0 #TODO: pass this as argument to shell script instead of exporting
 mcuboot-flash-bootloader: $(MCUBOOT_BIN) $(FLASHDEPS)
 	$(flash-recipe)
 
