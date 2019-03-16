@@ -227,14 +227,14 @@ do_flash() {
     # This allows flashing normal binary files without env configuration
     if _is_binfile "${IMAGE_FILE}" "${IMAGE_TYPE}"; then
         # hardwritten to use the first bank
-        FLASH_ADDR=$(_flash_start_address 1)
-        echo "Binfile detected, adding ROM base address: ${FLASH_ADDR}"
+        FLASH_BASE_ADDR=$(_flash_start_address 1)
+        echo "Binfile detected, adding ROM base address: ${FLASH_BASE_ADDR}"
         IMAGE_TYPE=bin
-        IMAGE_OFFSET=$(printf "0x%08x\n" "$((${IMAGE_OFFSET} + ${FLASH_ADDR}))")
+        FLASH_ADDR=$(printf "0x%08x\n" "$((${IMAGE_OFFSET} + ${FLASH_BASE_ADDR}))")
     fi
 
-    if [ "${IMAGE_OFFSET}" != "0" ]; then
-        echo "Flashing with IMAGE_OFFSET: ${IMAGE_OFFSET}"
+    if [ "${FLASH_ADDR}" != "0" ]; then
+        echo "Flashing with FLASH_ADDR: ${FLASH_ADDR}"
     fi
 
     # flash device
@@ -249,9 +249,9 @@ do_flash() {
             -c 'targets' \
             -c 'reset halt' \
             ${OPENOCD_PRE_FLASH_CMDS} \
-            -c 'flash write_image erase \"${IMAGE_FILE}\" ${IMAGE_OFFSET} ${IMAGE_TYPE}' \
+            -c 'flash write_image erase \"${IMAGE_FILE}\" ${FLASH_ADDR} ${IMAGE_TYPE}' \
             ${OPENOCD_PRE_VERIFY_CMDS} \
-            -c 'verify_image \"${IMAGE_FILE}\" ${IMAGE_OFFSET}' \
+            -c 'verify_image \"${IMAGE_FILE}\" ${FLASH_ADDR}' \
             -c 'reset run' \
             -c 'shutdown'" &&
     echo 'Done flashing'
