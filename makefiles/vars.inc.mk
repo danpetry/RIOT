@@ -70,7 +70,7 @@ export GITCACHE              # path to git-cache executable
 export GIT_CACHE_DIR         # path to git-cache cache directory
 export FLASHER               # The command to call on "make flash".
 export FFLAGS                # The parameters to supply to FLASHER.
-export IMAGE_OFFSET          # Define an offset from flash base address, for flashing.
+export FLASH_OFFSET          # Define an offset from flash base address, for flashing.
 # TERMPROG                   # The command to call on "make term".
 # TERMFLAGS                  # Additional parameters to supply to TERMPROG.
 export PORT                  # The port to connect the TERMPROG to.
