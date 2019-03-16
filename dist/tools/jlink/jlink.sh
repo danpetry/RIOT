@@ -51,6 +51,14 @@
 #
 # @author       Hauke Peteresen <hauke.petersen@fu-berlin.de>
 
+# This is an optional offset to the base address that can be used to flash an
+# image in a different location than it is linked at. This feature can be useful
+# when flashing images for firmware swapping/remapping boot loaders.
+# Default offset is 0, meaning the image will be flashed at the address that it
+# was linked at.
+: ${IMAGE_OFFSET:=0}
+
+
 # default GDB port
 _GDB_PORT=3333
 # default telnet port
@@ -84,10 +92,11 @@ test_config() {
         echo "Error: No target device defined in JLINK_DEVICE env var"
         exit 1
     fi
-    if [ -z "${IMAGE_OFFSET}" ]; then
-        echo "Error: No flashing offset defined in IMAGE_OFFSET env var"
+    if [ -z "${FLASH_BASE_ADDR}" ]; then
+        echo "Error: No flash base address defined in FLASH_BASE_ADDR env var"
         exit 1
     fi
+
 }
 
 test_binfile() {
@@ -157,7 +166,8 @@ do_flash() {
     if [ ! -z "${JLINK_PRE_FLASH}" ]; then
         printf "${JLINK_PRE_FLASH}\n" >> ${BINDIR}/burn.seg
     fi
-    echo "loadbin ${BINFILE} ${IMAGE_OFFSET}" >> ${BINDIR}/burn.seg
+    FLASH_ADDR=$(printf "0x%08x\n" "$((${FLASH_BASE_ADDR} + ${IMAGE_OFFSET}))")
+    echo "loadbin ${BINFILE} ${FLASH_ADDR}" >> ${BINDIR}/burn.seg
     if [ ! -z "${JLINK_POST_FLASH}" ]; then
         printf "${JLINK_POST_FLASH}\n" >> ${BINDIR}/burn.seg
     fi
@@ -258,7 +268,7 @@ shift # pop $1 from $@
 case "${ACTION}" in
   flash)
     echo "### Flashing Target ###"
-    echo "### Flashing at address ${IMAGE_OFFSET} ###"
+    echo "### Flashing at offset ${IMAGE_OFFSET} from base address ${FLASH_BASE_ADDR}###"
     do_flash "$@"
     ;;
   debug)
