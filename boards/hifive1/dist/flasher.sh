@@ -44,7 +44,7 @@
 # when flashing images for firmware swapping/remapping boot loaders.
 # Default offset is 0, meaning the image will be flashed at the address that it
 # was linked at.
-: ${IMAGE_OFFSET:=0}
+: ${FLASH_OFFSET:=0}
 # Type of image, leave empty to let OpenOCD automatically detect the type from
 # the file (default).
 # Valid values: elf, hex, s19, bin (see OpenOCD manual for more information)
@@ -106,7 +106,7 @@ do_flash() {
             -c 'init' \
             -c 'halt' \
             -c 'flash protect 0 64 last off' \
-            -c 'flash write_image erase \"${IMAGE_FILE}\" ${IMAGE_OFFSET} ${IMAGE_TYPE}' \
+            -c 'flash write_image erase \"${IMAGE_FILE}\" ${FLASH_OFFSET} ${IMAGE_TYPE}' \
             -c 'verify_image \"${IMAGE_FILE}\"' \
             -c 'reset halt' \
             -c 'reg pc 0x20000000' \

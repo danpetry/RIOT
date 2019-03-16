@@ -92,12 +92,8 @@
 : ${OPENOCD_DBG_START_CMD:=-c 'halt'}
 # command used to reset the board
 : ${OPENOCD_CMD_RESET_RUN:="-c 'reset run'"}
-# This is an optional offset to the base address that can be used to flash an
-# image in a different location than it is linked at. This feature can be useful
-# when flashing images for firmware swapping/remapping boot loaders.
-# Default offset is 0, meaning the image will be flashed at the address that it
-# was linked at.
-: ${IMAGE_OFFSET:=0}
+# Offset from the flash base address, for flashing
+: ${FLASH_OFFSET:=0}
 # Type of image, leave empty to let OpenOCD automatically detect the type from
 # the file (default).
 # Valid values: elf, hex, s19, bin (see OpenOCD manual for more information)
@@ -223,14 +219,14 @@ do_flash() {
         fi
     fi
 
-    # In case of binary file, IMAGE_OFFSET should include the flash base address
+    # For binary files, FLASH_ADDR should include the flash start address
     # This allows flashing normal binary files without env configuration
     if _is_binfile "${IMAGE_FILE}" "${IMAGE_TYPE}"; then
         # hardwritten to use the first bank
         FLASH_BASE_ADDR=$(_flash_start_address 1)
         echo "Binfile detected, adding ROM base address: ${FLASH_BASE_ADDR}"
         IMAGE_TYPE=bin
-        FLASH_ADDR=$(printf "0x%08x\n" "$((${FLASH_BASE_ADDR} + ${IMAGE_OFFSET}))")
+        FLASH_ADDR=$(printf "0x%08x\n" "$((${FLASH_BASE_ADDR} + ${FLASH_OFFSET}))")
     fi
 
     if [ "${FLASH_ADDR}" != "0" ]; then
