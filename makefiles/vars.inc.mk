@@ -1,5 +1,4 @@
 # set default values for selected global variables
-IMAGE_OFFSET ?= 0x0
 
 export Q                     # Used in front of Makefile lines to suppress the printing of the command if user did not opt-in to see them.
 export QQ                    # as Q, but be more quiet
@@ -71,7 +70,7 @@ export GITCACHE              # path to git-cache executable
 export GIT_CACHE_DIR         # path to git-cache cache directory
 export FLASHER               # The command to call on "make flash".
 export FFLAGS                # The parameters to supply to FLASHER.
-export IMAGE_OFFSET          # Define an offset from flash base address, for linking and flashing.
+export IMAGE_OFFSET          # Define an offset from flash base address, for flashing.
 # TERMPROG                   # The command to call on "make term".
 # TERMFLAGS                  # Additional parameters to supply to TERMPROG.
 export PORT                  # The port to connect the TERMPROG to.
