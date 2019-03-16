@@ -51,6 +51,7 @@
 #
 # @author       Hauke Peteresen <hauke.petersen@fu-berlin.de>
 
+: ${FLASH_BASE_ADDR:=0}
 # This is an optional offset to the base address that can be used to flash an
 # image in a different location than it is linked at. This feature can be useful
 # when flashing images for firmware swapping/remapping boot loaders.
@@ -92,11 +93,6 @@ test_config() {
         echo "Error: No target device defined in JLINK_DEVICE env var"
         exit 1
     fi
-    if [ -z "${FLASH_BASE_ADDR}" ]; then
-        echo "Error: No flash base address defined in FLASH_BASE_ADDR env var"
-        exit 1
-    fi
-
 }
 
 test_binfile() {
