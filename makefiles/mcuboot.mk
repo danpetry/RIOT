@@ -47,7 +47,7 @@ mcuboot-flash-bootloader: $(MCUBOOT_BIN) $(FLASHDEPS)
 	$(flash-recipe)
 
 mcuboot-flash: FLASHFILE = $(SIGN_BINFILE)
-mcuboot-flash: export FLASH_ADDR = $(MCUBOOT_SLOT0_SIZE)
+mcuboot-flash: export IMAGE_OFFSET = $(MCUBOOT_SLOT0_SIZE)
 mcuboot-flash: mcuboot $(FLASHDEPS) mcuboot-flash-bootloader
 	$(flash-recipe)
 

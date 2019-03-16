@@ -12,7 +12,7 @@
 # JLINK_SERIAL:     Device serial used by JLink
 # JLINK_IF:         Interface used by JLink, default: "SWD"
 # JLINK_SPEED:      Interface clock speed to use (in kHz), default "2000"
-# FLASH_ADDR:       Flash address where the first byte of the binary will be programmed, default: "0"
+# IMAGE_OFFSET:     Offset from start of flash where the first byte of the binary will be programmed, default: "0"
 # JLINK_PRE_FLASH:  Additional JLink commands to execute before flashing
 # JLINK_POST_FLASH: Additional JLink commands to execute after flashing
 #
@@ -84,8 +84,8 @@ test_config() {
         echo "Error: No target device defined in JLINK_DEVICE env var"
         exit 1
     fi
-    if [ -z "${FLASH_ADDR}" ]; then
-        echo "Error: No flashing address defined in FLASH_ADDR env var"
+    if [ -z "${IMAGE_OFFSET}" ]; then
+        echo "Error: No flashing offset defined in IMAGE_OFFSET env var"
         exit 1
     fi
 }
@@ -157,7 +157,7 @@ do_flash() {
     if [ ! -z "${JLINK_PRE_FLASH}" ]; then
         printf "${JLINK_PRE_FLASH}\n" >> ${BINDIR}/burn.seg
     fi
-    echo "loadbin ${BINFILE} ${FLASH_ADDR}" >> ${BINDIR}/burn.seg
+    echo "loadbin ${BINFILE} ${IMAGE_OFFSET}" >> ${BINDIR}/burn.seg
     if [ ! -z "${JLINK_POST_FLASH}" ]; then
         printf "${JLINK_POST_FLASH}\n" >> ${BINDIR}/burn.seg
     fi
@@ -258,7 +258,7 @@ shift # pop $1 from $@
 case "${ACTION}" in
   flash)
     echo "### Flashing Target ###"
-    echo "### Flashing at address ${FLASH_ADDR} ###"
+    echo "### Flashing at address ${IMAGE_OFFSET} ###"
     do_flash "$@"
     ;;
   debug)
