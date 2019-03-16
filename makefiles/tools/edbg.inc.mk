@@ -11,8 +11,8 @@ ifneq (,$(DEBUG_ADAPTER_ID))
   EDBG_ARGS += --serial $(DEBUG_ADAPTER_ID)
 endif
 
-# Set offset according to IMAGE_OFFSET if it's defined
-EDBG_ARGS += $(if $(IMAGE_OFFSET),--offset $(IMAGE_OFFSET))
+# Set offset according to FLASH_OFFSET if it's defined
+EDBG_ARGS += $(if $(FLASH_OFFSET),--offset $(FLASH_OFFSET))
 
 FFLAGS ?= $(EDBG_ARGS) -t $(EDBG_DEVICE_TYPE) -b -v -p -f $(HEXFILE)
 
