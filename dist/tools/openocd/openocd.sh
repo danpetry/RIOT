@@ -230,7 +230,7 @@ do_flash() {
         FLASH_BASE_ADDR=$(_flash_start_address 1)
         echo "Binfile detected, adding ROM base address: ${FLASH_BASE_ADDR}"
         IMAGE_TYPE=bin
-        FLASH_ADDR=$(printf "0x%08x\n" "$((${IMAGE_OFFSET} + ${FLASH_BASE_ADDR}))")
+        FLASH_ADDR=$(printf "0x%08x\n" "$((${FLASH_BASE_ADDR} + ${IMAGE_OFFSET}))")
     fi
 
     if [ "${FLASH_ADDR}" != "0" ]; then
