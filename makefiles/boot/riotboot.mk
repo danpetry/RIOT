@@ -25,7 +25,7 @@ export NUM_SLOTS
 # if needed.
 export SLOT0_OFFSET ?= $(RIOTBOOT_LEN)
 # export does not work properly with variables using '$((  ))' so evaluate it in a shell
-export SLOT1_OFFSET ?= $(shell echo $$(($(SLOT0_OFFSET) + $(SLOT0_LEN))))
+export SLOT1_OFFSET ?= $(shell printf "0x%X\n" $$(($(SLOT0_OFFSET) + $(SLOT0_LEN))))
 
 # Mandatory APP_VER, set to epoch by default
 APP_VER ?= $(shell date +%s)
