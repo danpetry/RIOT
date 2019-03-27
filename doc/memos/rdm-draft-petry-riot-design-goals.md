@@ -295,8 +295,9 @@ are.
 This document follows previous work on documenting RIOT's design priorities [3]
 [4].
 
-Thanks to E. Baccelli, K. Bannister, M. Lenders, K. Schleiser, T. Schmidt, M.
-Waehlisch, and all others who have contributed to the review of this document.
+Thanks to E. Baccelli, K. Bannister, M. Lenders, M. Rottleuthner, K. Schleiser,
+T. Schmidt, M.  Waehlisch, K. Zandberg, and all others who have contributed to
+the review of this document.
 
 # References
 
