@@ -149,9 +149,10 @@ they need to manage energy carefully. RIOT's tickless scheduler lets devices
 sleep while they aren't collecting data.
 
 Modules outside the core should leverage the benefits and address the
-programming challenges of such a scheduler. They shouldn't demand that users do
-the same.  They should, however, allow users to manage power through different
-modes and functions.
+programming challenges of such a scheduler, without demanding that users do the
+same. An idling device should conserve energy wherever possible, by default.
+For case specific power management, appropriate control should be available to
+the user.
 
 #### Small memory footprint
 
