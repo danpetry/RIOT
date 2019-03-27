@@ -63,102 +63,73 @@ Readers who are familiar with the field may skip directly to [section
 
 ## 2.1. Environmental sensing
 
-Networks of remote sensor nodes can be deployed to monitor the environment or
+Networks of remote sensor nodes can be deployed to monitor the environment (air
+componsition, temperature, light intensity, water quality...), or
 assist with urban planning. These devices can be distributed on their own or
-fit to infrastructure. The devices need to:
+fit to infrastructure. In particular, the devices need to:
 
-  - Sense air composition, temperature, light quality, water quality, etc.
-  - Support low-power wireless networking protocols.
-  - Interoperate with non-RIOT nodes or gateways.
   - Collect data on timescales of the order of hours or longer.
-  - Potentially be able to send data over long ranges.
-  - Potentially communicate with a smartphone.
+  - Potentially be able to send data over long ranges with low power.
   - Potentially operate for years without power infrastructure or maintenance.
 
 ## 2.2. Rapid prototyping, research, and experimentation
 
 In experimentation and hacking situations, development needs to be easily
-accessible, and allow a short development time and quick results. This means
-that the software and hardware should:
+accessible, and allow a short development time and quick results. In
+particular, this means that the software and hardware should:
 
-  - Let users prototype easily.
-  - Let users easily load and run simple applications.
-  - Let users easily set up networking.
-  - Let users easily port third party libraries.
-  - Be highly customizable and updateable.
-  - Support a range of plug-in sensors and actuators.
+  - Let users easily write, load and run simple applications.
   - Be usable with or without different features, including networking.
-  - Use commonly available, easy to use development boards.
-  - Come with an easy-to-use toolkit that has a minimum of setup time.
-  - Let users easily port programs to different devices.
+  - Come with an easy-to-use, versatile toolkit that has a minimum of setup time.
+  - Let users easily run the same programs on different hardware.
 
 ## 2.3. Logistic tracking
 
-Sensors that record environmental conditions can be used to manage goods in
-transit. These sensors need to:
+Sensors that record environmental conditions and location can be used to manage
+goods in transit. In particular, these sensors need to:
 
-  - Sense position and condition of goods.
   - Last for several months without charging.
+  - Securely collect, store and transmit sensitive business data.
   - Send data over long ranges to regional infrastructure.
 
 ## 2.4. Physical system monitoring and control
 
-Distributed networks of sensors and actuators can be employed in certain
-control applications, such as automotive systems or Industry 4.0. The nodes
-need to:
+Distributed networks of sensors (torque, rotary position...) and actuators
+(motors, solenoids...) can be employed in certain control applications, such as
+automotive systems, robotics, or Industry 4.0. In particular, the nodes need to:
 
-  - Sense various specific properties such as pressure, torque, velocity, or
-    flow.
-  - Control various specific actuators such as motors, solenoids, or valves.
   - Collect and send data with a low latency, or at least a well synchronized
     timestamp.
-  - Potentially have a very low unit cost, particularly when the networks are
-    implemented in mass market products such as automobiles.
-  - Potentially run control algorithms themselves.
+  - Have the timing precision to potentially run control algorithms themselves.
+  - Potentially have a very low memory footprint and therefore unit cost,
+    particularly when the nodes are produced in very high volume.
 
-## 2.5. Edge systems for building management and automation
+## 2.5. Edge systems for building management, and smart home
 
-Various sensing and environmental control tasks can be done by edge nodes in
-buildings. The nodes need to be able to:
+Various sensing (light, temperature, humidity...) and environmental control
+tasks (heating, ventilation, access control...) can be done by edge nodes in
+buildings. In particular, the nodes need to be able to:
 
-  - Sense temperature, light, humidity, pressure, current, etc.
-  - Control temperature, light, ventilation, etc.
-  - Connect to the building management system, via wired or wireless connectors.
-  - Deliver data with controllable timing and accuracy.
+  - Integrate with heterogeneous appliances from a range of vendors running a
+    range of different protocols.
+  - Communicate over common protocols for constrained devices which
+    interoperate in the home, such as BLE, 802.15.4, etc.
+  - Ensure the privacy of end users in an easy-to-use fashion.
 
-## 2.6. Smart home devices
-
-Easy to use devices can let consumers monitor and control their home
-automatically. The devices need to be able to:
-
-  - Sense temperature, light, humidity, smoke, etc.
-  - Integrate with home appliances to control temperature, light, power usage,
-    etc.
-  - Be usable but secure for people with no technical knowledge.
-  - Connect to a commercial home gateway.
-  - Communicate over common home IoT protocols such as ZigBee, Bluetooth, Wi-Fi,
-    etc.
-  - Connect to the building's power or provide their own power, depending on
-    the product.
-
-## 2.7. Daughterboards
+## 2.6. Daughterboards
 
 Plug-in boards can give devices immediate support for a protocol or standard,
-or let them outsource a task from the main processor. This requires the board
-to:
+or let them outsource a task from the main processor. In particular, this
+requires the board to:
 
-  - Perform its promised task reliably.
-  - Integrate and communicate reliably with the main processor.
-  - Include and support any relevant hardware.
+  - Support on-chip low-level wired communication.
 
-## 2.8. Education
+## 2.7. Education
 
 The broad technical scope of RIOT makes it useful as a basis for education.
-This requires:
+In particular, this requires:
 
   - The presence of didactic materials related to RIOT.
-  - Clear and easy to find documentation.
-  - A general availability of supported hardware and tools.
 
 # 3. Design philosophies
 
@@ -217,12 +188,9 @@ RIOT's use cases involve makers, researchers in (non-)computer science fields,
 broadly skilled engineers making vertically integrated IoT proofs-of-concept,
 and experienced embedded C developers.
 
-All of these users should be comfortable using RIOT and its tooling, whatever
-their platform or hardware. No user of any skill level should be tripped up
-because they haven't configured something that they wouldn't reasonably be
-expected to know about. Whatever the user's background, RIOT should demand as
-little RIOT-specific learning as possible. It should, therefore, adhere to
-common systems and networking standards.
+These should be comfortable using RIOT and its tooling, on typical platforms.
+RIOT should demand as little RIOT-specific learning as possible. It should,
+therefore, adhere to common systems and networking standards.
 
 ## Versatility
 
@@ -237,10 +205,10 @@ other elements that RIOT supports should constantly be expanding.
 
 ## Vendor and technology independence
 
-Vendors and technologies are supported with zero bias. This means users can
-choose what's best for them, without being led by RIOT. Moreover, RIOT is Free
-Software [2], which means users are free to use it as they wish without
-lock-in.
+Vendors and technologies are supported equally, except for a bias towards open
+standards. This means users can choose what's best for them, without being led
+by RIOT. Moreover, RIOT is Free Software [2], which means users are free to use
+it as they wish without lock-in.
 
 The choice of the hardware and standards RIOT supports should depend only on
 how well they support the use cases. Any allegiance that modules may have
@@ -311,10 +279,9 @@ Where possible, layers should exist that sit on top of a certain class of
 modules to give an identical interface to the user. Semantic and naming
 conventions should be consistent throughout the system.
 
-## Internet security
+## Cyber security
 
-RIOT nodes need to be resilient against cyber attacks, for the sake of its
-reputation and the reputation of the IoT.
+RIOT nodes need to be resilient against cyber attacks.
 
 It should be hard against all the threats a node is likely to experience,
 depending on the situation, including those from computers with many times
