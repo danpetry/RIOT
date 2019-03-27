@@ -171,9 +171,8 @@ Starting from there, the memory usage depends on the enabled features:
 
 #### Constrained networking
 
-RIOT should deliver best-in-class communication robustness and
-interoperability. To this end, we use open networking standards over custom,
-more optimized protocols.
+RIOT should deliver communication robustness and interoperability. To this end,
+we use open networking standards over custom, more optimized protocols.
 
 The interfaces to network stacks (netdev, sock) are designed to be agnostic to
 the stack itself. The stacks themselves can therefore be interchanged freely.
