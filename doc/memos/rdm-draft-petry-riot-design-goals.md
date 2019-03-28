@@ -46,9 +46,11 @@ functionality.
 # 2. Use cases
 
 RIOT is a general purpose IoT operating system for low-end devices, such as
-those described in [1]. As such, RIOT targets separate use cases from embedded
-Linux. Below is a comprehensive, but non-exclusive list of RIOT use cases,
-including the general requirements placed on the devices for each one.
+those described in [1]. These devices have a low memory footprint - kilobytes
+rather than megabytes - and an extremely low memory footprint of a few
+kilobytes in certain applications. As such, RIOT targets separate use cases from
+embedded Linux. Below is a comprehensive, but non-exclusive list of RIOT use
+cases, including the general requirements placed on the devices for each one.
 
 These requirements demonstrate the need for RIOT to support an extremely large
 number of hardware configurations: various microcontrollers bundled with
@@ -78,7 +80,8 @@ In experimentation and hacking situations, development needs to be easily
 accessible, and allow a short development time and quick results. In
 particular, this means that the software and hardware should:
 
-  - Let users easily write, load and run simple applications.
+  - Let users easily write, load and run applications.
+  - Let users easily port third party libraries.
   - Be usable with or without different features, including networking.
   - Come with an easy-to-use, versatile toolkit that has a minimum of setup time.
   - Let users easily run the same programs on different hardware.
@@ -89,7 +92,7 @@ Sensors that record environmental conditions and location can be used to manage
 goods in transit. In particular, these sensors need to:
 
   - Last for several months without charging.
-  - Securely collect, store and transmit sensitive business data.
+  - Securely collect, store and transmit sensitive data.
   - Send data over long ranges to regional infrastructure.
 
 ## 2.4. Physical system monitoring and control
@@ -100,23 +103,33 @@ automotive systems, robotics, or Industry 4.0. In particular, the nodes need to:
 
   - Collect and send data with a low latency, or at least a well synchronized
     timestamp.
-  - Have the timing precision to potentially run control algorithms themselves.
-  - Potentially have a very low memory footprint and therefore unit cost,
-    particularly when the nodes are produced in very high volume.
+  - Potentially run control algorithms themselves.
+  - Have the timing precision to support time sensitive control.
 
-## 2.5. Edge systems for building management, and smart home
+## 2.5. Edge systems for building management and automation
 
 Various sensing (light, temperature, humidity...) and environmental control
 tasks (heating, ventilation, access control...) can be done by edge nodes in
 buildings. In particular, the nodes need to be able to:
 
-  - Integrate with heterogeneous appliances from a range of vendors running a
-    range of different protocols.
-  - Communicate over common protocols for constrained devices which
-    interoperate in the home, such as BLE, 802.15.4, etc.
+  - Connect to building management systems from a range of vendors running a
+    range of domain specific application layer protocols.
+  - Communicate over domain specific wired and wireless physical layer
+    protocols, such as BACnet and Modbus.
+  - Integrate with in-house cyber security management systems.
+
+## 2.6. Smart home
+
+Smart home use cases have monitoring and control aims which overlap with
+commercial building management. However, in the smart home there is less
+technical equipment, different protocols, and different system management
+criteria. In particular, the nodes here need to be able to:
+
+  - Communicate over common protocols for constrained devices in the home, such
+    as BLE, 802.15.4 and WiFi.
   - Ensure the privacy of end users in an easy-to-use fashion.
 
-## 2.6. Daughterboards
+## 2.7. Daughterboards
 
 Plug-in boards can give devices immediate support for a protocol or standard,
 or let them outsource a task from the main processor. In particular, this
@@ -124,12 +137,13 @@ requires the board to:
 
   - Support on-chip low-level wired communication.
 
-## 2.7. Education
+## 2.8. Education
 
 The broad technical scope of RIOT makes it useful as a basis for education.
 In particular, this requires:
 
   - The presence of didactic materials related to RIOT.
+  - The presence of tooling suitable to a classroom context.
 
 # 3. Design philosophies
 
@@ -146,7 +160,7 @@ reduced as to become a dominant consideration in design requirements [1].
 
 RIOT nodes sometimes need to last for several years without external power, so
 they need to manage energy carefully. RIOT's tickless scheduler lets devices
-sleep while they aren't collecting data.
+sleep while they aren't active.
 
 Modules outside the core should leverage the benefits and address the
 programming challenges of such a scheduler, without demanding that users do the
@@ -156,11 +170,11 @@ the user.
 
 #### Small memory footprint
 
-Apart from being optimized for low memory usage, RIOT tries very hard to be as
-modular as possible so unused features don't use up precious RAM or flash.
-Almost all features are provided as optional modules that have to be enabled
-explicitly at compile time.  A minimal RIOT configuration starts at around
-<2KiB flash and <1.5KiB RAM (including stack space for one thread and ISRs).
+Apart from being optimized for low memory usage, RIOT is modular so unused
+features don't use up precious RAM or flash. Almost all features are provided
+as optional modules that have to be enabled explicitly at compile time.  A
+minimal RIOT configuration starts at around <2KiB flash and <1.5KiB RAM
+(including stack space for one thread and ISRs).
 
 Starting from there, the memory usage depends on the enabled features:
 
@@ -170,10 +184,10 @@ Starting from there, the memory usage depends on the enabled features:
 - A 6lowpan enabled CoAP server requires ~60KiB ROM and ~15KiB RAM
 - a file system adds ~15 KiB ROM and ~2 KiB RAM
 
-#### Constrained networking
+#### Networking
 
-RIOT should deliver communication robustness and interoperability. To this end,
-we use open networking standards over custom, more optimized protocols.
+RIOT should deliver communication robustness and interoperability. We prefer
+open standards over proprietary solutions.
 
 The interfaces to network stacks (netdev, sock) are designed to be agnostic to
 the stack itself. The stacks themselves can therefore be interchanged freely.
@@ -194,9 +208,9 @@ therefore, adhere to common systems and networking standards.
 
 ## Versatility
 
-The use cases for IoT systems are manifold, and so are their requirements.
-Therefore, design decisions in RIOT should not prefer one technology or one
-protocol over another. 
+The use cases for real-time embedded systems are manifold, and so are their
+requirements. Therefore, design decisions in RIOT should not prefer one
+technology or one protocol over another. 
 
 Default configurations should support as many users and use cases as possible.
 RIOT should aim at providing everything users need, either in its code base or
@@ -210,22 +224,19 @@ standards. This means users can choose what's best for them, without being led
 by RIOT. Moreover, RIOT is Free Software [2], which means users are free to use
 it as they wish without lock-in.
 
-The choice of the hardware and standards RIOT supports should depend only on
-how well they support the use cases. Any allegiance that modules may have
-should be kept to themselves.
-
 ## Modularity
 
-RIOT decomposes into small modules. Being modular lets RIOT address many
-different memory, functionality, and performance demands. It also helps
-development efforts to scale in a widely distributed community.
+RIOT decomposes into fine-grained modules. This level of modularity lets RIOT
+address many different memory, functionality, and performance demands. It also
+helps development efforts to scale in a widely distributed community.
 
 Modules should be abstracted from one another as cleanly as possible. It should
 be easy for users to manage or exploit this modularity, for example through
 configuration methods, easy integration of third-party source code, or
-different levels of modularity. The granularity of modules should be stable and
-similar across different types of module. Users shouldn't want to split
-modules, but they shouldn't be unnecessarily fine-grained either.
+different levels of modularity. The granularity of sub-modules for a module
+should be chosen pragmatically, taking the type, context, and impact of the
+module into account. Users shouldn't want to split modules, but they shouldn't
+be unnecessarily fine-grained either.
 
 ## Cross-hardware portability
 
