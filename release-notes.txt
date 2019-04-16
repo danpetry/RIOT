@@ -56,8 +56,10 @@ Networking
 ----------
     * gnrc_ipv6: adapted ping6 to original-ping-like implementation
     * gnrc_ipv6: allowed sending empty IPv6 packets
+    + gnrc_netif_ieee802154: optional support to drop duplicate broadcast
+      packets
     - gnrc_pktbuf: removed deprecated gnrc_pktbuf_get_iovec() function
-    + NDP: allow definition of common hop limit
+    + l2util: initial import of a general IPv6 over X helper module
     + NimBLE: added Bluetooth device scanner
     + NimBLE: added helper functions for address printing
     * NimBLE: updated package to the latest version
