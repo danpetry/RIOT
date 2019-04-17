@@ -195,6 +195,7 @@ Timer related issues
 
 Drivers related issues
 ----------------------
+#11405: nrfmin: communication not possible after multicast ping with no interval
 #10559: I2C API write_regs does not fit implementation
 #9546: dht: driver for dht11 sensor sometimes stuck in dht_read() on Atmel SAMR21
 #9419: cpu/msp430: GPIO driver doesn't work properly
