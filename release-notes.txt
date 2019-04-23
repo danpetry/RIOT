@@ -89,7 +89,8 @@ CPU
 ---
     + stm32l0: added riotboot support
     + stm32f0: added support for periph_pm
-    + stm32f3 and stm32l1: added stop and standby low power modes
+    + stm32f3, f7, l1 and l4: added stop and standby low power modes. All
+      STM32 families now provide periph_pm
     + samd21: enabled idle modes
     + sam0: added support for RWWEE on-chip memory
     + Kinetis: added support for EA series and S9KEAZ129 MCU
