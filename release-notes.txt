@@ -51,6 +51,7 @@ System libraries
     + app_metadata: added module to print application metadata
     + unaligned.h: added functions to safely read values from potentially
       unaligned pointers
+    + isrpipe: split isrpipe_read_timeout to isolate xtimer dependency
 
 Networking
 ----------
@@ -84,6 +85,7 @@ Boards
     + b-l072z-lrwan1: enabled RTT feature
     + STM32l0: added support for dual bank flashing with OpenOCD
     * Autonomo: changed flasher to BOSSA
+    * stm32f3discovery: Fix no external low speed crystal
 
 CPU
 ---
@@ -126,10 +128,18 @@ Build System / Tooling
     * makefiles: introduce FLASHFILE
       * Use FLASHFILE for `riotboot` and `mcuboot`
       * Update flashers `avrdude`, `edbg`, `jlink`, lpc2k_pgm`, `openocd`
+    * makefiles/docker.inc.mk: Use directories in RIOT when possible
+    * make: unexport `TERM*` variables
+    * msba2: compile 'lpc2k_pgm' when flashing
 
 Testing
 -------
     + documentation: added initial guide to running tests
+    + Makefile.include: add a 'test/available' target
+    * testrunner: Fix bug matching local echo
+    * tests/rng: replace printf_float with fmt/print_float
+    * tests/bloom_bytes: replace %f with fmt/print_float
+    * tests/posix_semaphore: sem_timedwait should not return before abstime
 
 Known issues
 ============
