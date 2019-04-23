@@ -85,6 +85,7 @@ Boards
     + b-l072z-lrwan1: enabled RTT feature
     + STM32l0: added support for dual bank flashing with OpenOCD
     * Autonomo: changed flasher to BOSSA
+    * stm32: rework common clock configuration for stm32f4
     * stm32f3discovery: Fix no external low speed crystal
 
 CPU
