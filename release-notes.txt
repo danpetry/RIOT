@@ -115,15 +115,17 @@ Device Drivers
 Build System / Tooling
 ----------------------
     + nrf52: added support for openocd
-    + added support for Texas Instruments UniFlash
     * improved avrdude integration
-    * improved handling of flashing images at offset addresses
-    * allowed clean definition of file to be flashed
     * improved Murdock's info-boards-supported failure message
     + added test result caching to Murdock
     + added support for socat as a RIOT terminal
-    * pyterm: specified use of python3 by default
     + added script for backporting PRs during release testing
+    * pyterm: specified use of python3 by default
+    * flasher: support for flashing images at offset addresses `pyocd`, `jlink`
+    * Texas Instruments UniFlash: put configuration in common
+    * makefiles: introduce FLASHFILE
+      * Use FLASHFILE for `riotboot` and `mcuboot`
+      * Update flashers `avrdude`, `edbg`, `jlink`, lpc2k_pgm`, `openocd`
 
 Testing
 -------
