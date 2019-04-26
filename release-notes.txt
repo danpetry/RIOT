@@ -102,8 +102,8 @@ CPU
 Device Drivers
 --------------
     + i2c: added slave scan shell command
-    + USB: added peripheral driver for sam0_common
     + USB: added device driver initialization function and API definition
+    + USB: added peripheral driver for sam0_common
     + nrf5x temperature sensor: added driver
     + nrf52: added initial 802.15.4 support
     + add7746 capacitance sensor: added driver
@@ -119,8 +119,6 @@ Build System / Tooling
 ----------------------
     + nrf52: added support for openocd
     * improved avrdude integration
-    * improved Murdock's info-boards-supported failure message
-    + added test result caching to Murdock
     + added support for socat as a RIOT terminal
     + added script for backporting PRs during release testing
     * pyterm: specified use of python3 by default
