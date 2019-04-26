@@ -24,8 +24,8 @@ ability for firmware to flash images into a separate boot slot. Support for
 several new boards and new sensors was added, and this release contains a
 number of bug fixes and test improvements.
 
-About 271 pull requests with about 569 commits have been merged since the last
-release and about 22 issues have been solved. 44 people contributed with code
+About 320 pull requests with about 569 commits have been merged since the last
+release and about 40 issues have been solved. 44 people contributed with code
 in 88 days. Approximately 825 files have been touched with 32716 insertions
 and 5149 deletions.
 
