@@ -21,8 +21,8 @@ About this release:
 The 2019.04 release includes a number of new features including porting of
 riotboot to a number of new platforms, 802.15.4 support on the nRF52, and the
 ability for firmware to flash images into a separate boot slot. Support for
-several new boards and new sensors was added, and this release contains a
-number of bug fixes and test improvements.
+several new boards and new sensors was added. Additionally, this release
+contains a number of bug fixes and test improvements.
 
 About 320 pull requests with about 569 commits have been merged since the last
 release and about 40 issues have been solved. 44 people contributed with code
