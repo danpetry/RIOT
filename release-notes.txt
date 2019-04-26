@@ -333,7 +333,6 @@ Fixed Issues from the last release (2019.01)
 #9387: shell `ping6` doesn't display duplicate packages
 #8663: /sys/random/seed: why not use hwrng if available?
 #8523: tools: need backport script
-#7672: 802.15.4 support for nRF52840 MCU
 #6123: gnrc: crash with (excessive) traffic in native
 
 
